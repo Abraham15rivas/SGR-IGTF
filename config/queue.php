@@ -29,6 +29,9 @@ return [
     */
 
     'connections' => [
+        'db2_odbc' => [
+            'driver' => 'ibmi',
+        ],
 
         'sync' => [
             'driver' => 'sync',
