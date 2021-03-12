@@ -4,8 +4,51 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7b7240aa199d59814a9d97a793ee3e12",
+    "content-hash": "7d6e529070bedf252445d517cd80de0b",
     "packages": [
+        {
+            "name": "almasaeed2010/adminlte",
+            "version": "v3.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ColorlibHQ/AdminLTE.git",
+                "reference": "6b8b69261f1aacbb4be037c934f3c3652e6dff27"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ColorlibHQ/AdminLTE/zipball/6b8b69261f1aacbb4be037c934f3c3652e6dff27",
+                "reference": "6b8b69261f1aacbb4be037c934f3c3652e6dff27",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Colorlib"
+                }
+            ],
+            "description": "AdminLTE - admin control panel and dashboard that's based on Bootstrap 4",
+            "homepage": "http://adminlte.io/",
+            "keywords": [
+                "JS",
+                "admin",
+                "back-end",
+                "css",
+                "less",
+                "responsive",
+                "template",
+                "theme",
+                "web"
+            ],
+            "support": {
+                "issues": "https://github.com/ColorlibHQ/AdminLTE/issues",
+                "source": "https://github.com/ColorlibHQ/AdminLTE/tree/v3.0.5"
+            },
+            "time": "2020-05-19T20:41:11+00:00"
+        },
         {
             "name": "asm89/stack-cors",
             "version": "v2.0.2",
@@ -117,6 +160,61 @@
                 }
             ],
             "time": "2021-01-20T22:51:39+00:00"
+        },
+        {
+            "name": "cooperl/laravel-db2",
+            "version": "8.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cooperl22/laravel-db2.git",
+                "reference": "fed6ccfc27062ba4c3a19ac1a3f474fdd38db1e6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cooperl22/laravel-db2/zipball/fed6ccfc27062ba4c3a19ac1a3f474fdd38db1e6",
+                "reference": "fed6ccfc27062ba4c3a19ac1a3f474fdd38db1e6",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^8.0",
+                "php": "^7.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Cooperl\\DB2\\DB2ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Cooperl\\DB2\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Maxime Rault",
+                    "role": "Developer"
+                }
+            ],
+            "description": "laravel-db2 is a simple DB2 service provider for Laravel. It provides DB2 Connection by extending the Illuminate Database component of the laravel framework.",
+            "keywords": [
+                "database",
+                "db2",
+                "laravel",
+                "odbc",
+                "pdo"
+            ],
+            "support": {
+                "issues": "https://github.com/cooperl22/laravel-db2/issues",
+                "source": "https://github.com/cooperl22/laravel-db2/tree/8.0.0"
+            },
+            "time": "2020-09-25T12:36:56+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -891,6 +989,65 @@
                 "source": "https://github.com/guzzle/psr7/tree/1.7.0"
             },
             "time": "2020-09-30T07:37:11+00:00"
+        },
+        {
+            "name": "jeroennoten/laravel-adminlte",
+            "version": "v3.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jeroennoten/Laravel-AdminLTE.git",
+                "reference": "988cde36e00ac3c9cbb729a5910a4b34d680b6fa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jeroennoten/Laravel-AdminLTE/zipball/988cde36e00ac3c9cbb729a5910a4b34d680b6fa",
+                "reference": "988cde36e00ac3c9cbb729a5910a4b34d680b6fa",
+                "shasum": ""
+            },
+            "require": {
+                "almasaeed2010/adminlte": "^3.0",
+                "laravel/framework": ">=6.0",
+                "php": ">=7.2.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": ">=4.0",
+                "phpunit/phpunit": "^8.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "JeroenNoten\\LaravelAdminLte\\AdminLteServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "JeroenNoten\\LaravelAdminLte\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeroen Noten",
+                    "email": "jeroennoten@me.com"
+                }
+            ],
+            "description": "Easy AdminLTE integration with Laravel",
+            "keywords": [
+                "AdminLTE",
+                "admin",
+                "administrator",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/jeroennoten/Laravel-AdminLTE/issues",
+                "source": "https://github.com/jeroennoten/Laravel-AdminLTE/tree/v3.5.2"
+            },
+            "time": "2021-01-11T10:45:26+00:00"
         },
         {
             "name": "laravel/framework",
@@ -2414,84 +2571,6 @@
                 }
             ],
             "time": "2020-08-18T17:17:46+00:00"
-        },
-        {
-            "name": "spatie/laravel-permission",
-            "version": "4.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "7936ea9ebbd0d91877109dfeda1659fc4570a6cc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/7936ea9ebbd0d91877109dfeda1659fc4570a6cc",
-                "reference": "7936ea9ebbd0d91877109dfeda1659fc4570a6cc",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/auth": "^6.0|^7.0|^8.0",
-                "illuminate/container": "^6.0|^7.0|^8.0",
-                "illuminate/contracts": "^6.0|^7.0|^8.0",
-                "illuminate/database": "^6.0|^7.0|^8.0",
-                "php": "^7.2.5|^8.0"
-            },
-            "require-dev": {
-                "orchestra/testbench": "^4.0|^5.0|^6.0",
-                "phpunit/phpunit": "^8.0|^9.0",
-                "predis/predis": "^1.1"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Spatie\\Permission\\PermissionServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Spatie\\Permission\\": "src"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Freek Van der Herten",
-                    "email": "freek@spatie.be",
-                    "homepage": "https://spatie.be",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Permission handling for Laravel 6.0 and up",
-            "homepage": "https://github.com/spatie/laravel-permission",
-            "keywords": [
-                "acl",
-                "laravel",
-                "permission",
-                "permissions",
-                "rbac",
-                "roles",
-                "security",
-                "spatie"
-            ],
-            "support": {
-                "issues": "https://github.com/spatie/laravel-permission/issues",
-                "source": "https://github.com/spatie/laravel-permission/tree/4.0.0"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/spatie",
-                    "type": "github"
-                }
-            ],
-            "time": "2021-01-27T23:03:34+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

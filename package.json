@@ -23,5 +23,10 @@
         "vue": "^2.5.17",
         "vue-loader": "^15.9.5",
         "vue-template-compiler": "^2.6.10"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^5.15.2",
+        "icheck-bootstrap": "^3.0.1",
+        "overlayscrollbars": "^1.13.1"
     }
 }
