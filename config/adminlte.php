@@ -14,8 +14,8 @@ return [
     |
     */
 
-    'title' => 'SISR-IGTF',
-    'title_prefix' => 'SISR-IGTF | ',
+    'title' => 'SGR-IGTF',
+    'title_prefix' => 'SGR-IGTF | ',
     'title_postfix' => '',
 
     /*
@@ -45,7 +45,7 @@ return [
     |
     */
 
-    'logo' => '<b>SISR-IGTF</b>',
+    'logo' => '<b>SGR-IGTF</b>',
     'logo_img' => 'favicons/favicon.gif',
     'logo_img_class' => 'brand-image img-circle elevation-3',
     'logo_img_xl' => null,
@@ -190,7 +190,7 @@ return [
     'dashboard_url' => 'home',
     'logout_url' => 'logout',
     'login_url' => 'login',
-    'register_url' => 'register',
+    'register_url' => false,
     'password_reset_url' => 'password/reset',
     'password_email_url' => 'password/email',
     'profile_url' => false,
