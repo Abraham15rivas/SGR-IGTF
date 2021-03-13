@@ -78,6 +78,21 @@ return [
             'sslmode' => 'prefer',
         ],
 
+        'pgsql2' => [
+            'driver' => 'pgsql2',
+            'url' => env('DATABASE_URL_PGSQL2'),
+            'host' => env('DB_HOST_PGSQL2', '127.0.0.1'),
+            'port' => env('DB_PORT_PGSQL2', '5432'),
+            'database' => env('DB_DATABASE_PGSQL2', 'forge'),
+            'username' => env('DB_USERNAME_PGSQL2', 'forge'),
+            'password' => env('DB_PASSWORD_PGSQL2', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'schema' => 'public',
+            'sslmode' => 'prefer',
+        ],
+
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('DATABASE_URL'),
