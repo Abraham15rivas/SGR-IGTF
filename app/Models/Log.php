@@ -5,21 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Holiday extends Model
+class Log extends Model
 {
     use HasFactory;
-
-    protected $table = 'holidays';
+    
+    protected $table = 'logs';
 
     protected $fillable = [
-        'name',
         'description',
-        'date',
-        'status',
-        'bank_id'
+        'ip_pc',
+        'user_id'
     ];
 
-    public function bank() {
-        return $this->belongsTo(Bank::class);
+    public function user() {
+        return $this->belongsTo(User::class);
     }
 }

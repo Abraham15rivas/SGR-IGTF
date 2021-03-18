@@ -5,18 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class Instrument extends Model
 {
     use HasFactory;
 
-    protected $table = 'roles';
+    protected $table = 'instruments';
 
     protected $fillable = [
-        'name', 
+        'code_seniat',
         'description'
     ];
 
-    public function users() {
-        return $this->hasMany(User::class);
+    public function transactions() {
+        return $this->hasMany(Transaction::class);
     }
 }

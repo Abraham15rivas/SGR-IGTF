@@ -12,11 +12,15 @@ class Profile extends Model
     protected $table = 'profiles';
 
     protected $fillable = [
-        'first_name', 'second_name', 'surname', 'second_surname', 'user_id'
+        'first_name',
+        'second_name',
+        'surname',
+        'second_surname',
+        'image',
+        'user_id'
     ];
 
-    public function user()
-    {
+    public function user() {
         return $this->belongsTo(User::class);
     }
 }
