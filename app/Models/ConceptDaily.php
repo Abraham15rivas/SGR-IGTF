@@ -5,21 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Holiday extends Model
+class ConceptDaily extends Model
 {
     use HasFactory;
 
-    protected $table = 'holidays';
+    protected $table = 'concept_dailies';
 
     protected $fillable = [
-        'name',
         'description',
-        'date',
-        'status',
-        'bank_id'
+        'transaction_type_id'
     ];
 
-    public function bank() {
-        return $this->belongsTo(Bank::class);
+    public function transactionTypes() {
+        return $this->hasMany(TransactionType::class);
     }
 }
