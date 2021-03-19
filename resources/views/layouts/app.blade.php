@@ -3,10 +3,9 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
-    @php
-        $route = 'Definir';
-    @endphp
-    <h1>Dashboard {{ $route }}</h1>
+    <div class="text-center">
+        <h1>{{ isset($title) ? $title : 'Título'}}</h1>
+    </div>
 @stop
 
 @section('content')

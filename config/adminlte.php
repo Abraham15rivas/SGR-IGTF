@@ -87,7 +87,7 @@ return [
     'layout_boxed' => null,
     'layout_fixed_sidebar' => true,
     'layout_fixed_navbar' => true,
-    'layout_fixed_footer' => null,
+    'layout_fixed_footer' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -230,25 +230,28 @@ return [
             'topnav' => true,
         ],
         [
-            'text' => 'blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
+            'text'        => 'Inicio',
+            'url'         => 'admin',
+            'icon'        => 'fas fa-fw fa-home',
+            'label_color' => 'success',
+            'can'         => 'admin'
         ],
         [
             'text'        => 'Inicio',
             'url'         => 'home',
             'icon'        => 'fas fa-fw fa-home',
             'label_color' => 'success',
+            'can'         => ['analyst', 'security']
         ],
         ['header' => 'account_settings'],
         [
             'text' => 'profile',
-            'url'  => '#',
+            'route'  => 'profile.index',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
             'text' => 'change_password',
-            'url'  => '#',
+            'route'  => 'profile.pass',
             'icon' => 'fas fa-fw fa-lock',
         ],
         [
@@ -258,52 +261,40 @@ return [
                 [
                     'text' => 'level_one',
                     'url'  => '#',
+                    'can' => 'admin'
                 ],
                 [
-                    'text'    => 'level_one',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'level_two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
+                    'text' => 'level_two',
+                    'url'  => '#',
+                    'can' => 'admin'
                 ],
                 [
-                    'text' => 'level_one',
+                    'text' => 'level_three',
                     'url'  => '#',
                 ],
             ],
         ],
-        ['header' => 'labels'],
+        [
+            'header' => 'labels',
+            'can' => 'security'
+        ],
         [
             'text'       => 'important',
             'icon_color' => 'red',
             'url'        => '#',
+            'can' => 'security'
         ],
         [
             'text'       => 'warning',
             'icon_color' => 'yellow',
             'url'        => '#',
+            'can' => 'security'
         ],
         [
             'text'       => 'information',
             'icon_color' => 'cyan',
             'url'        => '#',
+            'can' => 'security'
         ],
     ],
 

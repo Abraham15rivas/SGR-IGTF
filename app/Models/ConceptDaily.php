@@ -12,8 +12,7 @@ class ConceptDaily extends Model
     protected $table = 'concept_dailies';
 
     protected $fillable = [
-        'description',
-        'transaction_type_id'
+        'description'
     ];
 
     public function transactionTypes() {
