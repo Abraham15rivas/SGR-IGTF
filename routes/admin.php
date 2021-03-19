@@ -3,4 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\HomeController;
 
-Route::get('/', [HomeController::class, 'index']);
+// Grupo de rutas del admin o gerente
+Route::group([
+    'middleware' => ['admin', 'auth']
+], function () {
+    Route::get('/', [HomeController::class, 'index']);
+});

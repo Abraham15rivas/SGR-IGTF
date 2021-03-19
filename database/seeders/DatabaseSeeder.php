@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(UserSeeder::class);
         $this->call(RifTypeSeeder::class);
         $this->call(BankSeeder::class);
+        $this->call(ConceptDailySeeder::class);
     }
 }

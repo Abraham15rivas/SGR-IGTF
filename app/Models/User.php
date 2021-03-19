@@ -44,29 +44,28 @@ class User extends Authenticatable
     ];
 
     // Métodos de AdminLTE
-    public function adminlte_image()
-    {
-        return 'https://picsum.photos/300/300';
+    public function adminlte_image() {
+        $profile = Profile::where('user_id', $this->id)->first();
+        if(!empty($profile)) {
+            return "/storage/$profile->image";
+        } else {
+            return '/images/default.png';
+        }
     }
 
-    public function adminlte_desc()
-    {
+    public function adminlte_desc() {
         return '';
     }
 
-    public function adminlte_profile_url()
-    {
-        return 'profile/username';
+    public function adminlte_profile_url() {
+        return 'profile/index';
     }
-    // end
 
-    public function role()
-    {
+    public function role() {
         return $this->belongsTo(Role::class);
     }
 
-    public function profile()
-    {
+    public function profile() {
         return $this->hasOne(Profile::class);
     }
 }
