@@ -17,7 +17,7 @@ class CreateCustomersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('name_secondary')->nullable();
-            $table->string('surname');
+            $table->string('surname')->nullable();
             $table->string('surname_secondary')->nullable();
             $table->string('rif');
             $table->foreignId('rif_type_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('SET NULL');

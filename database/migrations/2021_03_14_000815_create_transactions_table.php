@@ -16,14 +16,15 @@ class CreateTransactionsTable extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->string('reference');
-            $table->dateTime('date_time');
+            $table->date('date');
+            $table->time('time');
             $table->decimal('amount');
             $table->decimal('tax');
-            $table->enum('category', ['report', 'confirmed', 'declared']);
+            $table->enum('category', ['preliminary', 'confirmed', 'declared']);
             // foreign keys
             $table->foreignId('endorsed_id')->constrained();
             $table->foreignId('instrument_id')->constrained();
-            $table->foreignId('transaction_type_id')->constrained();
+            $table->foreignId('concept_dailies_id')->constrained();
             $table->foreignId('account_id')->constrained();
             $table->foreignId('total_id')->constrained();
             $table->timestamps();

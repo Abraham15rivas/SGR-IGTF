@@ -18,4 +18,14 @@ class ConceptDaily extends Model
     public function transactionTypes() {
         return $this->hasMany(TransactionType::class);
     }
+
+    static public function getConcepDailyId($code_concept) {
+        $id = substr($code_concept, -1, 2);
+        if(!is_string($id)) {
+            $concept = self::where('id', $id)->value('id');
+        } else {
+            $concept = 0;
+        }
+        return $concept;
+    }
 }

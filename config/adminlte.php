@@ -225,7 +225,7 @@ return [
 
     'menu' => [
         [
-            'text' => 'search',
+            'text'   => 'search',
             'search' => false,
             'topnav' => true,
         ],
@@ -245,56 +245,87 @@ return [
         ],
         ['header' => 'account_settings'],
         [
-            'text' => 'profile',
-            'route'  => 'profile.index',
-            'icon' => 'fas fa-fw fa-user',
+            'text'  => 'profile',
+            'route' => 'profile.index',
+            'icon'  => 'fas fa-fw fa-user',
         ],
         [
-            'text' => 'change_password',
-            'route'  => 'profile.pass',
-            'icon' => 'fas fa-fw fa-lock',
+            'text'  => 'change_password',
+            'route' => 'profile.pass',
+            'icon'  => 'fas fa-fw fa-lock',
         ],
         [
-            'text'    => 'Opciones',
+            'header'=> 'GESTION DE REPORTES',
+            'can'   => ['admin', 'analyst']
+        ],
+        [
+            'text'    => 'Opciones Excel',
             'icon'    => 'fas fa-fw fa-share',
             'submenu' => [
                 [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                    'can' => 'admin'
+                    'text'  => 'CORE Bancario',
+                    'route' => 'show.core.excel',
+                    'can'   => 'admin'
                 ],
                 [
-                    'text' => 'level_two',
-                    'url'  => '#',
-                    'can' => 'admin'
+                    'text'  => 'Ver Preliminar',
+                    'route' => 'show.preliminary.excel',
+                    'can'   => 'admin'
                 ],
                 [
-                    'text' => 'level_three',
-                    'url'  => '#',
+                    'text'  => 'Ver Definitivo',
+                    'route' => 'show.definitive.excel',
+                    'can'   => 'admin'
                 ],
             ],
         ],
         [
+            'text'    => 'Opciones XML',
+            'icon'    => 'fas fa-fw fa-share',
+            'submenu' => [
+                [
+                    'text'  => 'Declaración del IGTF',
+                    'url' => '#',
+                    'can'   => 'admin'
+                ],
+                [
+                    'text'  => 'Confirmación',
+                    'url' => '#',
+                    'can'   => 'admin'
+                ],
+            ],
+        ],
+        [
+            'header'    => 'GESTION DE CALENDARIO',
+            'can'       => 'analyst'
+        ],
+        [
+            'text'  => 'Calendario',
+            'icon'  => 'fas fa-fw fa-calendar',
+            'url'   => '#',
+            'can'   => 'analyst'
+        ],
+        [
             'header' => 'labels',
-            'can' => 'security'
+            'can'    => 'security'
         ],
         [
             'text'       => 'important',
             'icon_color' => 'red',
             'url'        => '#',
-            'can' => 'security'
+            'can'        => 'security'
         ],
         [
             'text'       => 'warning',
             'icon_color' => 'yellow',
             'url'        => '#',
-            'can' => 'security'
+            'can'        => 'security'
         ],
         [
             'text'       => 'information',
             'icon_color' => 'cyan',
             'url'        => '#',
-            'can' => 'security'
+            'can'        => 'security'
         ],
     ],
 

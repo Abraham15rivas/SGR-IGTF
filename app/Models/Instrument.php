@@ -19,4 +19,12 @@ class Instrument extends Model
     public function transactions() {
         return $this->hasMany(Transaction::class);
     }
+
+    static public function getInstrumentId($code_seniat) {
+        if(strlen($code_seniat) > 2) {
+            $code_seniat = '06';
+        }
+        $instrument_id = self::where('code_seniat', $code_seniat)->value('id');
+        return $instrument_id;
+    }
 }

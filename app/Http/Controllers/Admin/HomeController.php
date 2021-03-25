@@ -14,7 +14,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('admin.index');
+        $title = 'Vista principal';
+        return view('admin.index', compact('title'));
     }
 
     /**

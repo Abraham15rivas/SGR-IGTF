@@ -29,4 +29,9 @@ class Bank extends Model
     public function branchOffices() {
         return $this->hasMany(BranchOfficce::class);
     }
+    
+    static public function getBankId($code_cce) {
+        $bank_id = self::where('code_cce', $code_cce)->value('id');
+        return $bank_id;
+    }
 }

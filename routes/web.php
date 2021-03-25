@@ -37,6 +37,12 @@ Route::group([
     // Rutas cambio de password del usuario
     Route::get('/profile/change/password', [ProfileController::class, 'changePassword'])->name('profile.pass');
     Route::put('/profile/update/password/{user}', [ProfileController::class, 'setPassword'])->name('profile.update.pass');
+    // Rutas compartidas de los reportes
+    Route::middleware(['admin-analyst'])->group(function () {
+        Route::get('/show/excel/core', [HomeController::class, 'showCoreExcel'])->name('show.core.excel');
+        Route::get('/show/excel/preliminary', [HomeController::class, 'showPreliminaryExcel'])->name('show.preliminary.excel');
+        Route::get('/show/excel/definitive', [HomeController::class, 'showDefinitiveExcel'])->name('show.definitive.excel');
+    });
     // Grupo de rutas del analista
     Route::group([
         'middleware' => 'analyst'
