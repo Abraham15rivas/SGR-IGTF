@@ -29,6 +29,7 @@
         "icheck-bootstrap": "^3.0.1",
         "overlayscrollbars": "^1.13.1",
         "sweetalert2": "^10.15.6",
+        "vue-excel-editor": "^1.3.94",
         "vuex": "^3.6.2"
     }
 }

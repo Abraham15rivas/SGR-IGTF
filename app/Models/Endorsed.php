@@ -19,4 +19,13 @@ class Endorsed extends Model
     public function transactions() {
         return $this->hasMany(Transaction::class);
     }
+
+    static public function getEndorsed($endorsed_amount) {
+        if(!is_string($endorsed_amount)) {
+            $endorsed = $endorsed_amount;
+        } else {
+            $endorsed = 0;
+        }
+        return $endorsed;
+    }
 }
