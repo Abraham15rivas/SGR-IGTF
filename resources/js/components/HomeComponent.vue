@@ -5,7 +5,7 @@
                 <div class="card-header">Bienvenido</div>
 
                 <div class="card-body">
-                    <h1>Vista principal usarios analistas y seguridad</h1>
+                    <h1>Vista principal usarios analistas y Gerente</h1>
                 </div>
             </div>
         </div>

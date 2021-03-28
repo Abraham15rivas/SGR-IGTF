@@ -22,10 +22,10 @@ class UserSeeder extends Seeder
             'password' => Hash::make('secret123'),
             'role_id' => 1
         ]);
-        // Seguridad 
+        // Gerente 
         User::create([
-            'name' => 'Seguridad',
-            'email' => 'seguridad@test.com',
+            'name' => 'Gerente',
+            'email' => 'gerente@test.com',
             'password' => Hash::make('secret123'),
             'role_id' => 2
         ]);

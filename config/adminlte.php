@@ -241,7 +241,7 @@ return [
             'url'         => 'home',
             'icon'        => 'fas fa-fw fa-home',
             'label_color' => 'success',
-            'can'         => ['analyst', 'security']
+            'can'         => ['analyst', 'manager']
         ],
         ['header' => 'account_settings'],
         [
@@ -255,78 +255,84 @@ return [
             'icon'  => 'fas fa-fw fa-lock',
         ],
         [
+            'header'=> 'GESTION DE USUARIOS',
+            'can'   => 'admin'
+        ],
+        [
+            'text'  => 'Listar usuarios',
+            'url' => '#',
+            'icon'  => 'fas fa-fw fa-list',
+            'can'   => 'admin'
+        ],
+        [
+            'header'=> 'AUDITORIA',
+            'can'   => ['admin', 'manager']
+        ],
+        [
+            'text'  => 'Actividades de usuarios',
+            'url' => '#',
+            'icon'  => 'fas fa-fw fa-tasks',
+            'can'   => ['admin', 'manager']
+        ],
+        [
+            'text'  => 'Estadisticas',
+            'url' => '#',
+            'icon'  => 'fas fa-fw fa-chart-bar',
+            'can'   => ['admin', 'manager']
+        ],
+        [
             'header'=> 'GESTION DE REPORTES',
-            'can'   => ['admin', 'analyst']
+            'can'   => ['manager', 'analyst']
         ],
         [
             'text'    => 'Opciones Excel',
             'icon'    => 'fas fa-fw fa-share',
+            'can'   => ['manager', 'analyst'],
             'submenu' => [
                 [
-                    'text'  => 'CORE Bancario',
-                    'route' => 'show.core.excel',
-                    'can'   => 'admin'
+                    'text'  => 'Temporal',
+                    'route' => 'show.temporary.excel',
+                    'can'   => ['manager', 'analyst']
                 ],
                 [
-                    'text'  => 'Ver Preliminar',
-                    'route' => 'show.preliminary.excel',
-                    'can'   => 'admin'
+                    'text'  => 'Operaciones',
+                    'route' => 'show.operation.excel',
+                    'can'   => ['manager', 'analyst']
                 ],
                 [
-                    'text'  => 'Ver Definitivo',
+                    'text'  => 'Definitivo',
                     'route' => 'show.definitive.excel',
-                    'can'   => 'admin'
+                    'can'   => ['manager', 'analyst']
                 ],
             ],
         ],
         [
             'text'    => 'Opciones XML',
             'icon'    => 'fas fa-fw fa-share',
+            'can'   => ['manager', 'analyst'],
             'submenu' => [
                 [
                     'text'  => 'Declaración del IGTF',
                     'url' => '#',
-                    'can'   => 'admin'
+                    'can'   => ['manager', 'analyst']
                 ],
                 [
                     'text'  => 'Confirmación',
                     'url' => '#',
-                    'can'   => 'admin'
+                    'can'   => ['manager', 'analyst']
                 ],
             ],
         ],
         [
             'header'    => 'GESTION DE CALENDARIO',
-            'can'       => 'analyst'
+            'can'       => 'manager',
         ],
         [
             'text'  => 'Calendario',
             'icon'  => 'fas fa-fw fa-calendar',
-            'url'   => '#',
-            'can'   => 'analyst'
-        ],
-        [
-            'header' => 'labels',
-            'can'    => 'security'
-        ],
-        [
-            'text'       => 'important',
-            'icon_color' => 'red',
-            'url'        => '#',
-            'can'        => 'security'
-        ],
-        [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
-            'url'        => '#',
-            'can'        => 'security'
-        ],
-        [
-            'text'       => 'information',
-            'icon_color' => 'cyan',
-            'url'        => '#',
-            'can'        => 'security'
-        ],
+            'route' => 'calendar',
+            'can'   => 'manager'
+        ]
     ],
 
     /*

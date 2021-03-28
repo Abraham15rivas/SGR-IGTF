@@ -12,35 +12,35 @@ class ItfTrans02 extends Model
 
     protected $connection = 'pgsql2';
 
-    protected $table = 'itftrans02';
+    protected $table = 'ITFTRANS02';
 
     static public function getItfReportDaily() {
         $transactions = ItfTrans02::all();
         $transactions_filter = collect();
 
         foreach($transactions as $transaction) {
-            $amount     = (int) trim($transaction->ttramt);
-            $tax        = (((int) $amount * 2) / 100);
-            $time       = self::timeInt(trim($transaction->ttrtim));
-            $instrument = self::getInstrument($transaction->ttrnar);
-            $endorsed   = self::getEndorsed($transaction->ttrnar);
-            $concept    = self::getConcept($transaction->ttrnar);
+            $amount         = (int) trim($transaction->TTRAMT);
+            $tax_percentage = Rule::where('code', 'tax_percentage')->value('value');
+            $tax            = (((int) $amount * (int) $tax_percentage) / 100);
+            $time           = self::timeInt(trim($transaction->TTRTIM));
+            $instrument     = self::getInstrument($transaction->TTRNAR, $transaction->TTRCDE);
+            $endorsed       = self::getEndorsed($instrument);
+            $concept        = self::getConcept($instrument);
 
             $transactions_filter->push([
-                'REFERENCIA'    => trim($transaction->ctackn),
-                'RIF'           => trim($transaction->cusidn),
-                'CUENTA'        => trim($transaction->cta20),
-                'CLIENTE'       => trim($transaction->cusna1),
-                'FECHA'         => trim($transaction->fechas),
+                'REFERENCIA'    => trim($transaction->CTACKN),
+                'RIF'           => trim($transaction->CUSIDN),
+                'CUENTA'        => trim($transaction->CTA20),
+                'CLIENTE'       => trim($transaction->CUSNA1),
+                'FECHA'         => trim($transaction->FECHAS),
                 'HORA'          => $time,
-                'TRANSACCION'   => trim($transaction->ttrnar),
+                'TRANSACCION'   => trim($transaction->TTRNAR),
                 'INSTRUMENTO'   => $instrument,
                 'ENDOSO'        => $endorsed,
                 'CONCEPTO'      => $concept,
-                'CENTRO_COSTO'  => trim($transaction->ttrccn),
+                'CENTRO_COSTO'  => trim($transaction->TTRCCN),
                 'MONTO'         => $amount,
-                'IMPUESTO'      => $tax,
-                'SUCURSAL'      => trim($transaction->ttrbrn)
+                'IMPUESTO'      => $tax
             ]);
         }
         return $transactions_filter;
@@ -61,54 +61,40 @@ class ItfTrans02 extends Model
         return $time;
     }
 
-    static private function getInstrument($instrument) {
-        $value = self::conditions('instrument', $instrument);
-        return $value;
+    static private function getInstrument($description, $code) {
+        if(preg_match("/TRANSF CTA T O\/B IB|TRANSF O\/B CTA IB/", substr($description, 0, 19))) {
+           return '03';
+        }
+        if(preg_match("/ND POR IG|ND IMP AL DEBITO BANCARIO|IMPUESTO |COB\/IMP\/A|IMP. G.T.|ITF X COM|ITF X TRA|IGTF. 0.7|ND POR IG|IMP.IGTF |IGTF     /", substr($description, 0, 9))) {
+            return "IMPUESTO";
+        }        
+        if(trim($code) == 'TX') {
+            return 'IMPUESTO';
+        } elseif(preg_match("/59|DB|FI|ID|MD|FI|ND|RE/", trim($code))) {
+            return '04';
+        } elseif(trim($code) == 'WD') {
+            return '03';
+        } elseif(preg_match("/CK|CQ/", trim($code))) {
+            return '01';
+        }
+        return $code;
     }
 
-    static private function getEndorsed($endorsed) {
-        $value = self::conditions('endorsed', $endorsed);
-        return $value;
-    }
-
-    static private function getConcept($concept) {
-        $value = self::conditions('concept', $concept);
-        return $value;
-    }
-
-    static private function conditions($type, $elements) {
-        if(substr($elements, 0, 19) == 'TRANSF CTA T O/B IB') {
-            $elements = self::getType($type, ['01', '1', '0001']);
-        }
-        if(substr($elements, 0, 17) == 'OB/COM/ALTOVALOR ') {
-            $elements = self::getType($type, ['01', '1', '0001']);
-        }
-        if(preg_match("/CHEQ|PAGO|PROC|INCL/", substr($elements, 0, 4))) {
-            $elements = self::getType($type, ['01', '1', '0001']);
-        }
-        if(substr($elements, 0, 4) == 'EMIS') {
-            $elements = self::getType($type, ['02', '1', '0010']);
-        }
-        if(preg_match("/TRAN|TRAS/", substr($elements, 0, 4))) {
-            $elements = self::getType($type, ['03', '0', '0001']);
-        }
-        if(preg_match("/COMPR|COM.T|COM B|COM.T|ND SO|COM.T|RETIR|REG R|ND SO|COB\/C|COMIS|NOTA |ND EM|COM  |DB.NP|COBRO|COM X|DB.NO|ND EMIS Y|CARGO|ND RE|STAME|DB.BO/", substr($elements, 0, 5))) {
-            $elements = self::getType($type, ['04', '0', '0001']);
-        }
-        if(preg_match("/ND POR IG|ND IMP AL DEBITO BANCARIO|IMPUESTO |COB\/IMP\/A|IMP. G.T.|ITF X COM|ITF X TRA|IGTF. 0.7|ND POR IG|IMP.IGTF |IGTF     /", substr($elements, 0, 9))) {
-            $elements = "IMPUESTO";
-        }
-        return $elements;
-    }
-
-    static private function getType($type, $values) {
-        if($type == 'instrument') {
-            $value_return = "$values[0]";
-        } elseif($type == 'endorsed') {
-            $value_return = "$values[1]";
+    static private function getEndorsed($instrument) {
+        if($instrument == '01') {
+            $endorsed = 1;
         } else {
-            $value_return = "$values[2]";
+            $endorsed = 0;
         }
-        return $value_return;
+        return $endorsed;
+    }
+
+    static private function getConcept($instrument) {
+        if($instrument == '02') {
+            $concept = '0010';
+        } else {
+            $concept = '0001';
+        }
+        return $concept;
     }
 }
