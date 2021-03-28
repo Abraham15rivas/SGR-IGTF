@@ -15,12 +15,8 @@ class CreateTotalsTable extends Migration
     {
         Schema::create('totals', function (Blueprint $table) {
             $table->id();
-            $table->integer('gravada_endosos');
-            $table->integer('gravada_cantidad');
-            $table->decimal('gravada_base');
-            $table->decimal('gravada_impuesto');
-            $table->integer('no_gravada_cantidad');
-            $table->decimal('no_gravada_base');
+            $table->string('type');
+            $table->longText('data');
             $table->timestamps();
         });
     }

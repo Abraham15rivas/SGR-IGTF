@@ -13,27 +13,27 @@ class Transaction extends Model
    
     protected $fillable = [
         'reference',
+        'account_id',
         'date',
         'time',
+        'description',
+        'instrument_id',
+        'endorsed_id',
+        'concept_dailies_id',
+        'branch',
         'amount',
         'tax',
+        'endorsed',
         'category',
-        'endorsed_id',
-        'instrument_id',
-        'transaction_type_id',
-        'account_id'
+        'total_id'
     ];
-
-    public function endorsed() {
-        return $this->belongsTo(Endorsed::class);
-    }
 
     public function instrument() {
         return $this->belongsTo(Instrument::class);
     }
 
-    public function transactionType() {
-        return $this->belongsTo(transactionType::class);
+    public function conceptDaily() {
+        return $this->belongsTo(ConceptDaily::class);
     }
 
     public function account() {
@@ -45,40 +45,44 @@ class Transaction extends Model
     }
 
     static public function setTransactions($transactions) {
-        $preliminaries = collect();
+        $operations = collect();
         foreach($transactions as $transaction) {
-            $preliminary            = new Transaction();
-            $preliminary->reference = $transaction['REFERENCIA'];
-            $preliminary->date      = $transaction['FECHA'];
-            $preliminary->time      = $transaction['HORA'];
-            $preliminary->amount    = $transaction['MONTO'];
-            $preliminary->tax       = $transaction['IMPUESTO'];
-            $preliminary->category  = 'preliminary';
+            $operation              = new Transaction();
+            $operation->reference   = $transaction['REFERENCIA'];
+            $operation->date        = $transaction['FECHA'];
+            $operation->time        = $transaction['HORA'];
+            $operation->description = $transaction['TRANSACCION'];
+            $operation->branch      = $transaction['CENTRO_COSTO'];
+            $operation->amount      = $transaction['MONTO'];
+            $operation->tax         = $transaction['IMPUESTO'];
+            $operation->category    = 'operation';
 
+            dd($operation);
+             
             $account_id             = Customer::setCustomer($transaction['RIF'], $transaction['CUENTA'], $transaction['CLIENTE'], $transaction['SUCURSAL']);
             $instrument_id          = Instrument::getInstrumentId($transaction['INSTRUMENTO']);
             $concept_dailies_id     = ConceptDaily::getConcepDailyId($transaction['CONCEPTO']);
             $endorsed_id            = Endorsed::getEndorsed($transaction['ENDOSO']);
 
             if($account_id) {
-                $preliminary->account_id = $account_id;
+                $operation->account_id = $account_id;
             }
 
             if($instrument_id) {
-                $preliminary->instrument_id = $instrument_id;
+                $operation->instrument_id = $instrument_id;
             }
 
             if($concept_dailies_id) {
-                $preliminary->concept_dailies_id = $concept_dailies_id;
+                $operation->concept_dailies_id = $concept_dailies_id;
             }
 
             if($endorsed_id) {
-                $preliminary->endorsed_id = $endorsed_id;
+                $operation->endorsed_id = $endorsed_id;
             }
 
-            // $preliminary->save();
-            $preliminaries->push($preliminary);
+            // $operation->save();
+            $operations->push($operation);
         }
-        return $preliminaries;
+        return $operations;
     }
 }

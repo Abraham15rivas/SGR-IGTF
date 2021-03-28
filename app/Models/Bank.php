@@ -26,8 +26,8 @@ class Bank extends Model
         return $this->hasMany(Holiday::class);
     }
 
-    public function branchOffices() {
-        return $this->hasMany(BranchOfficce::class);
+    public function accounts() {
+        return $this->hasMany(Account::class);
     }
     
     static public function getBankId($code_cce) {

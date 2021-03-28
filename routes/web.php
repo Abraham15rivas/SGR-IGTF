@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 // Modelos de los controladores
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Profile\ProfileController;
+use App\Http\Controllers\Manager\ManagerController;
 
 // Rutas de autenticación
 Auth::routes();
@@ -37,22 +38,25 @@ Route::group([
     // Rutas cambio de password del usuario
     Route::get('/profile/change/password', [ProfileController::class, 'changePassword'])->name('profile.pass');
     Route::put('/profile/update/password/{user}', [ProfileController::class, 'setPassword'])->name('profile.update.pass');
-    // Rutas compartidas de los reportes
-    Route::middleware(['admin-analyst'])->group(function () {
-        Route::get('/show/excel/core', [HomeController::class, 'showCoreExcel'])->name('show.core.excel');
-        Route::get('/show/excel/preliminary', [HomeController::class, 'showPreliminaryExcel'])->name('show.preliminary.excel');
+    // Rutas compartidas para Gerentes y analistas
+    Route::middleware(['manager-analyst'])->group(function () {
+        Route::get('/home', [HomeController::class, 'index'])->name('home');
+        Route::get('/show/excel/temporary', [HomeController::class, 'showTemporaryExcel'])->name('show.temporary.excel');
+        Route::post('/store/excel/operation', [HomeController::class, 'storeOperationExcel'])->name('store.operation.excel');
+        Route::get('/show/excel/operation', [HomeController::class, 'showOperationExcel'])->name('show.operation.excel');
         Route::get('/show/excel/definitive', [HomeController::class, 'showDefinitiveExcel'])->name('show.definitive.excel');
     });
     // Grupo de rutas del analista
     Route::group([
         'middleware' => 'analyst'
     ], function () {
-        Route::get('/home', [HomeController::class, 'index'])->name('home');
+        // code
     });
     // Grupo de rutas del usuario de seguridad
     Route::group([
-        'middleware'    => 'security',
+        'middleware' => 'manager',
+        'prefix'     => 'manager'
     ], function () {
-        Route::get('/home', [HomeController::class, 'index'])->name('home');
+        Route::get('/calendar', [ManagerController::class, 'index'])->name('calendar');
     });
 });

@@ -17,7 +17,6 @@ class CreateAccountsTable extends Migration
             $table->id();
             $table->string('cta20');
             $table->foreignId('customer_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            // $table->foreignId('branch_office_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('bank_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });

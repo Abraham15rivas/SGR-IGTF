@@ -30,37 +30,51 @@ class HomeController extends Controller
         return view('home', compact('title'));
     }
 
-    public function showCoreExcel() {
-        if(!Cache::has('transactions')) {
-            $transactions = ItfTrans02::getItfReportDaily();
-            $date         = $transactions->first()['FECHA'];
-            Cache::add('transactions', $transactions);
+    public function showTemporaryExcel() {
+        if(!Cache::has('temporary')) {
+            $temporary  = ItfTrans02::getItfReportDaily();
+            $date       = $temporary->first()['FECHA'];
+            Cache::add('temporary', $temporary);
         } else {
-            $transactions = Cache::get('transactions');
-            $date         = $transactions->first()['FECHA'];
+            $temporary = Cache::get('temporary');
+            $date      = $temporary->first()['FECHA'];
         }
-        // Cache::flush();
-        $title = 'Datos del Core Bancario: ' . $date;
-        return view('report.show_core_excel', compact('transactions', 'title'));
+        Cache::flush();
+        $title = 'Temporal: ' . $date;
+        return view('report.show_temporary_excel', compact('temporary', 'title'));
     }
 
-    public function showPreliminaryExcel() {
-        if(!Cache::has('preliminaries')) {
-            $transactions   = ItfTrans02::getItfReportDaily();
-            $preliminaries  = Transaction::setTransactions($transactions);
-            $date           = $transactions->first()['FECHA'];
-            Cache::add('transactions', $transactions);
-            Cache::add('preliminaries', $preliminaries);
+    public function storeOperationExcel(Request $request) {
+        if($request->ajax()) {
+            $transactions = $request->transactions;
+            $operations = Transaction::setTransactions($transactions);
+            return response()->json([
+                'success' => true,
+                'message' => '¡Operaciones emitido correctamente!',
+            ], 200);
         } else {
-            $transactions   = Cache::get('transactions');
-            $preliminaries  = Cache::get('preliminaries');
-            $date           = $transactions->first()['FECHA'];
-        }        
-        // Cache::flush();
-        // dd($preliminaries);
+            return response()->json([
+                'success' => false,
+                'message' => 'Algo salio mal!',
+            ], 400);
+        }
+    }
 
-        $title = 'Datos reporte preliminar: ' . $date;
-        return view('report.show_preliminary_excel', compact('preliminaries', 'title'));
+    public function showOperationExcel(Request $request) {
+
+        // if(!Cache::has('operation')) {
+        //     $transactions   = ItfTrans02::getItfReportDaily();
+        //     $date           = $transactions->first()['FECHA'];
+        //     Cache::add('transactions', $transactions);
+        //     Cache::add('temporary', $temporary);
+        // } else {
+        //     $transactions   = Cache::get('transactions');
+        //     $temporary  = Cache::get('temporary');
+        //     $date           = $transactions->first()['FECHA'];
+        // }        
+        // Cache::flush();
+        $title = 'Datos reporte temporal: ' . $date;
+        return view('report.show_temporary_excel', compact('preliminaries', 'title'));
     }
 
     public function showDefinitiveExcel() {

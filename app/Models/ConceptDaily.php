@@ -15,10 +15,10 @@ class ConceptDaily extends Model
         'description'
     ];
 
-    public function transactionTypes() {
-        return $this->hasMany(TransactionType::class);
+    public function transactions() {
+        return $this->hasMany(Transaction::class);
     }
-
+    
     static public function getConcepDailyId($code_concept) {
         $id = substr($code_concept, -1, 2);
         if(!is_string($id)) {

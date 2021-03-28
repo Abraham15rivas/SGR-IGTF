@@ -15,15 +15,14 @@ class Account extends Model
         'cta20',
         'customer_id',
         'bank_id',
-        // 'branch_office_id'
     ];
 
     public function customer() {
         return $this->belongsTo(Customer::class);
     }
 
-    public function branchOffice() {
-        return $this->belongsTo(BranchOfficce::class);
+    public function bank() {
+        return $this->belongsTo(Bank::class);
     }
 
     public function transactions() {
