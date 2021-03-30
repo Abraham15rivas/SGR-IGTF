@@ -12,8 +12,21 @@
     @yield('content')
 @stop
 
+@section('footer')
+    <div class="float-right d-none d-sm-block">
+        <b>Version</b> 1.0.0
+    </div>
+    <strong>Copyright &copy; 2021-{{ date('Y') }} <a href="{{ config('app.url_footer', 'Laravel') }}" target="_blank">BAV</a>.</strong> All rights reserved.
+@stop
+
 @section('css')
     <!-- Styles addicionales -->
+    <style>
+        footer{
+            background: #17A2B8 !important;
+            color: black !important;
+        }
+    </style>
 @stop
 
 @section('js')

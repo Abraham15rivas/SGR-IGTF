@@ -8,4 +8,5 @@ Route::group([
     'middleware' => ['admin', 'auth']
 ], function () {
     Route::get('/', [HomeController::class, 'index']);
+    Route::get('/list/users', [HomeController::class, 'allUsers'])->name('user.all');
 });

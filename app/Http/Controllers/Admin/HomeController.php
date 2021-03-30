@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,12 @@ class HomeController extends Controller
     {
         $title = 'Vista principal';
         return view('admin.index', compact('title'));
+    }
+
+    public function allUsers() {
+        $users = User::with('role')->get()->toJson();
+        $title = 'Lista de usuarios';
+        return view('admin.users.index', compact('users', 'title'));
     }
 
     /**

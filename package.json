@@ -26,6 +26,9 @@
     },
     "dependencies": {
         "@fortawesome/fontawesome-free": "^5.15.2",
+        "@fullcalendar/daygrid": "^5.5.0",
+        "@fullcalendar/interaction": "^5.5.0",
+        "@fullcalendar/vue": "^5.5.0",
         "icheck-bootstrap": "^3.0.1",
         "overlayscrollbars": "^1.13.1",
         "sweetalert2": "^10.15.6",

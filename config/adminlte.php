@@ -260,7 +260,7 @@ return [
         ],
         [
             'text'  => 'Listar usuarios',
-            'url' => '#',
+            'route' => 'user.all',
             'icon'  => 'fas fa-fw fa-list',
             'can'   => 'admin'
         ],

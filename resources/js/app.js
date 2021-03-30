@@ -17,6 +17,7 @@ Vue.component('show-operation-component', require('./components/report/ShowOpera
 Vue.component('show-definitive-component', require('./components/report/ShowDefinitiveComponent.vue').default);
 Vue.component('show-temporary-component', require('./components/report/ShowTemporaryComponent.vue').default);
 Vue.component('calendar-component', require('./components/manager/CalendarComponent.vue').default);
+Vue.component('user-list-component', require('./components/admin/users/UserListComponent.vue').default);
 Vue.use(VueExcelEditor)
 
 /* 
