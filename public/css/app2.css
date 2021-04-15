@@ -1,0 +1,40 @@
+footer{
+    background: #289310 !important;
+    color: white !important;
+}
+
+.card-header-bav {
+    background-color: #289310 !important;
+    color: white;
+}
+
+.bg-bav {
+    background-color: #289310 !important;
+}
+
+.bg-bav-lc {
+    background-color: #50C14A !important;
+}
+
+.bg-bav-ligth {
+    background-color: #ECFAD9 !important;
+}
+
+.gray-color {
+    background-color: #F7F6E9;
+}
+
+.card-bav {
+    border-top: 3px solid #289310;;
+}
+
+.btn-bav {
+    color: #ffffff;
+    background-color: #289310;
+    border-color: #289310;
+    box-shadow: none;
+}
+
+.navbar-bav {
+    background-color: #289310;
+}

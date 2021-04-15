@@ -41,10 +41,10 @@ Route::group([
     // Rutas compartidas para Gerentes y analistas
     Route::middleware(['manager-analyst'])->group(function () {
         Route::get('/home', [HomeController::class, 'index'])->name('home');
-        Route::get('/show/excel/temporary', [HomeController::class, 'showTemporaryExcel'])->name('show.temporary.excel');
-        Route::post('/store/excel/operation', [HomeController::class, 'storeOperationExcel'])->name('store.operation.excel');
-        Route::get('/show/excel/operation', [HomeController::class, 'showOperationExcel'])->name('show.operation.excel');
-        Route::get('/show/excel/definitive', [HomeController::class, 'showDefinitiveExcel'])->name('show.definitive.excel');
+        Route::get('/index/excel/transaction', [HomeController::class, 'indexTransaction'])->name('index.transaction.excel');
+        Route::get('/show/excel/transaction/{date}', [HomeController::class, 'showTransactionExcel'])->name('show.transaction.excel');
+        Route::post('/store/excel/confirmation', [HomeController::class, 'confirmationExcel'])->name('store.confirmation.excel');
+        Route::get('/show/xml', [HomeController::class, 'showXML'])->name('show.xml');
     });
     // Grupo de rutas del analista
     Route::group([

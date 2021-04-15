@@ -1,8 +1,8 @@
 <template>
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card card-primary">
-                <div class="card-header">
+            <div class="card bg-bav-ligth">
+                <div class="card-header card-header-bav">
                     <h3 class="card-title">Datos personales</h3>
                 </div>
                 <form @submit.prevent="setPassword">

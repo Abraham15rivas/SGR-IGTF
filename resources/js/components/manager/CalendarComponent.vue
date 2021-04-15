@@ -1,8 +1,8 @@
 <template>
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">¡ Bienvenido ! aquí puedes colocar las fechas feriadas en el calendario</div>
+            <div class="card bg-bav-ligth">
+                <div class="card-header card-header-bav">¡ Bienvenido ! aquí puedes colocar las fechas feriadas en el calendario</div>
                 <div class="card-body">
                   <FullCalendar :options="calendarOptions" />
                 </div>

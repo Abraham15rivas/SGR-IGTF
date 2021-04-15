@@ -21,12 +21,7 @@
 
 @section('css')
     <!-- Styles addicionales -->
-    <style>
-        footer{
-            background: #17A2B8 !important;
-            color: black !important;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/app2.css') }}">
 @stop
 
 @section('js')
