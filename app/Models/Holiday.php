@@ -10,16 +10,4 @@ class Holiday extends Model
     use HasFactory;
 
     protected $table = 'holidays';
-
-    protected $fillable = [
-        'name',
-        'description',
-        'date',
-        'status',
-        'bank_id'
-    ];
-
-    public function bank() {
-        return $this->belongsTo(Bank::class);
-    }
 }

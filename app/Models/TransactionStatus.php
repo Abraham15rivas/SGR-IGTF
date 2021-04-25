@@ -5,15 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Rule extends Model
+class TransactionStatus extends Model
 {
     use HasFactory;
 
-    protected $table = 'rules';
-
-    protected $fillable = [
-        'code',
-        'value',
-        'description'
-    ];
+    protected $table = 'EstatTrans';
+    protected $primaryKey = 'pk_Estat';
 }

@@ -20,7 +20,7 @@ class HomeController extends Controller
     }
 
     public function allUsers() {
-        $users = User::with('role')->get()->toJson();
+        $users = User::with('role', 'profile')->get()->toJson();
         $title = 'Lista de usuarios';
         return view('admin.users.index', compact('users', 'title'));
     }

@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-    <show-definitive-component />
+    <show-xml-component />
 @endsection

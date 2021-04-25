@@ -1,8 +1,8 @@
 <template>
     <div class="row justify-content-center">
         <div class="col-md-12">
-            <div class="card card-primary">
-                <div class="card-header">
+            <div class="card bg-bav-ligth">
+                <div class="card-header card-header-bav">
                     <h3 class="card-title">Datos personales</h3>
                 </div>
                 <div v-if="profile.image" class="card card-primary card-outline">
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div class="card-footer text-right">
-                    <button type="submit" :class="[`btn ${ register ? 'btn-primary' : 'btn-success' }`]" v-text="`${ register ? 'Actualizar' : 'Guardar' }`"></button>
+                        <button type="submit" :class="[`btn ${ register ? 'btn-primary' : 'btn-success' }`]" v-text="`${ register ? 'Actualizar' : 'Guardar' }`"></button>
                     </div>
                 </form>
             </div>

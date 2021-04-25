@@ -66,7 +66,7 @@ return [
 
     'usermenu_enabled' => true,
     'usermenu_header' => true,
-    'usermenu_header_class' => 'bg-primary',
+    'usermenu_header_class' => 'bg-bav-lc',
     'usermenu_image' => true,
     'usermenu_desc' => true,
     'usermenu_profile_url' => true,
@@ -101,12 +101,12 @@ return [
     |
     */
 
-    'classes_auth_card' => 'card-outline card-primary',
+    'classes_auth_card' => 'card-outline card-bav',
     'classes_auth_header' => '',
     'classes_auth_body' => '',
     'classes_auth_footer' => '',
     'classes_auth_icon' => '',
-    'classes_auth_btn' => 'btn-flat btn-primary',
+    'classes_auth_btn' => 'btn-flat btn-bav',
 
     /*
     |--------------------------------------------------------------------------
@@ -128,7 +128,7 @@ return [
     'classes_content' => '',
     'classes_sidebar' => 'sidebar-dark-success elevation-4',
     'classes_sidebar_nav' => '',
-    'classes_topnav' => 'navbar-info navbar-light',
+    'classes_topnav' => 'navbar-bav navbar-light',
     'classes_topnav_nav' => 'navbar-expand text-white',
     'classes_topnav_container' => 'container',
 
@@ -191,8 +191,8 @@ return [
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => false,
-    'password_reset_url' => 'password/reset',
-    'password_email_url' => 'password/email',
+    'password_reset_url' => false,
+    'password_email_url' => false,
     'profile_url' => false,
 
     /*
@@ -290,20 +290,10 @@ return [
             'can'   => ['manager', 'analyst'],
             'submenu' => [
                 [
-                    'text'  => 'Temporal',
-                    'route' => 'show.temporary.excel',
+                    'text'  => 'Transacciones',
+                    'route' => 'index.transaction.excel',
                     'can'   => ['manager', 'analyst']
-                ],
-                [
-                    'text'  => 'Operaciones',
-                    'route' => 'show.operation.excel',
-                    'can'   => ['manager', 'analyst']
-                ],
-                [
-                    'text'  => 'Definitivo',
-                    'route' => 'show.definitive.excel',
-                    'can'   => ['manager', 'analyst']
-                ],
+                ]
             ],
         ],
         [
@@ -312,15 +302,10 @@ return [
             'can'   => ['manager', 'analyst'],
             'submenu' => [
                 [
-                    'text'  => 'Declaración del IGTF',
-                    'url' => '#',
+                    'text'  => 'Ver archivos',
+                    'route' => 'index.xml',
                     'can'   => ['manager', 'analyst']
-                ],
-                [
-                    'text'  => 'Confirmación',
-                    'url' => '#',
-                    'can'   => ['manager', 'analyst']
-                ],
+                ]
             ],
         ],
         [
