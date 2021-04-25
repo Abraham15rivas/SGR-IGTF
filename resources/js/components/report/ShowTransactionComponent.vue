@@ -155,9 +155,10 @@
                                 title: 'Oops...',
                                 text: `${ object.message }`,
                             })
+                            this.ready = false
                         }
                     } catch (error) {
-                        console.log(errror)
+                        console.log(error)
                     }
                 } else {
                     Swal.fire({

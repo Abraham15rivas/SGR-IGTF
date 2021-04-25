@@ -9,6 +9,7 @@ import store from './store'
 import VueExcelEditor from 'vue-excel-editor'
 
 // Definir los componentes
+Vue.component('welcome-component', require('./components/WelcomeComponent.vue').default);
 Vue.component('home-component', require('./components/HomeComponent.vue').default);
 Vue.component('index-component', require('./components/admin/IndexComponent.vue').default);
 Vue.component('show-component', require('./components/profile/ShowComponent.vue').default);

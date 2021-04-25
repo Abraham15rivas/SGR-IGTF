@@ -303,7 +303,7 @@ return [
             'submenu' => [
                 [
                     'text'  => 'Ver archivos',
-                    'route' => 'show.xml',
+                    'route' => 'index.xml',
                     'can'   => ['manager', 'analyst']
                 ]
             ],

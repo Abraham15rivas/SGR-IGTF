@@ -44,7 +44,8 @@ Route::group([
         Route::get('/index/excel/transaction', [HomeController::class, 'indexTransaction'])->name('index.transaction.excel');
         Route::get('/show/excel/transaction/{date}', [HomeController::class, 'showTransactionExcel'])->name('show.transaction.excel');
         Route::post('/store/excel/confirmation', [HomeController::class, 'confirmationExcel'])->name('store.confirmation.excel');
-        Route::get('/show/xml', [HomeController::class, 'showXML'])->name('show.xml');
+        Route::get('/show/xml/transaction', [HomeController::class, 'indexXML'])->name('index.xml');
+        Route::get('/show/xml/transaction/{date}', [HomeController::class, 'showXML'])->name('show.xml');
     });
     // Grupo de rutas del analista
     Route::group([

@@ -17,6 +17,7 @@
   import interactionPlugin from '@fullcalendar/interaction'
 
   export default {
+    props: ['dates'],
     components: {
       FullCalendar // make the <FullCalendar> tag available
     },

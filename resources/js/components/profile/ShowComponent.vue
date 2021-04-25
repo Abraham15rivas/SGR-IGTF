@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div class="card-footer text-right">
-                    <button type="submit" :class="[`btn ${ register ? 'btn-primary' : 'btn-success' }`]" v-text="`${ register ? 'Actualizar' : 'Guardar' }`"></button>
+                        <button type="submit" :class="[`btn ${ register ? 'btn-primary' : 'btn-success' }`]" v-text="`${ register ? 'Actualizar' : 'Guardar' }`"></button>
                     </div>
                 </form>
             </div>

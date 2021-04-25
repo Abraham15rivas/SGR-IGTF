@@ -17,22 +17,29 @@ class UserSeeder extends Seeder
     {
         // Admin
         User::create([
-            'name' => 'Administrador',
-            'email' => 'admin@test.com',
+            'name' => 'Liliana',
+            'email' => 'liliana.guerra@bav.com.ve',
             'password' => Hash::make('secret123'),
             'role_id' => 1
         ]);
         // Gerente 
         User::create([
-            'name' => 'Gerente',
-            'email' => 'gerente@test.com',
+            'name' => 'Juan',
+            'email' => 'juan.rodriguez@bav.com.ve',
             'password' => Hash::make('secret123'),
             'role_id' => 2
         ]);
         // Analista
         User::create([
-            'name' => 'Analista',
-            'email' => 'analista@test.com',
+            'name' => 'Manuel',
+            'email' => 'manuel.silva@bav.com.ve',
+            'password' => Hash::make('secret123'),
+            'role_id' => 3
+        ]);
+        // Analista
+        User::create([
+            'name' => 'Dayana',
+            'email' => 'dayana.perozo@bav.com.ve',
             'password' => Hash::make('secret123'),
             'role_id' => 3
         ]);
