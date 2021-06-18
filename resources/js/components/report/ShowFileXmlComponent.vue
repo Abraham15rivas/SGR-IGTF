@@ -41,7 +41,6 @@
                             <button class="btn btn-primary" :disabled="document == 'ITFBancoConfirmacion' ? true : false" @click="getITFBancoConfirmacion">ITFBancoConfirmacion</button>
                         </div>
                         <div class="col-md-4 text-right">
-                            <button :class="[document == 'ITFBanco' ? 'btn btn-success' : 'btn btn-success disabled']">Confirmar</button>
                             <a :download="`${ files[document].name }`" :href="`/storage/${ files[document].route }`" :class="[files[document].route == null ? 'btn btn-warning disabled' : 'btn btn-warning']">
                                 <i class="fas fa-fw fa-file-excel"></i>
                             </a>

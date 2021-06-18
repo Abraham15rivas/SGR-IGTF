@@ -9,59 +9,74 @@ use Carbon\Carbon;
 use Illuminate\Support\facades\DB;
 use App\Exports\TransactionsExport;
 use Illuminate\Support\Facades\Storage;
+use App\Traits\{
+    LogTrait,
+    RouteFileTrait
+};
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    use LogTrait, RouteFileTrait;
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
         $title = 'Vista principal';
         return view('home', compact('title'));
     }
 
-    public function indexTransaction() {        
+    public function indexTransaction() {
         $title = 'Reportes de transacciones';
         return view('report.show_transaction_excel', compact('title'));
     }
     
     public function showTransactionExcel(Request $request) {
-        // $date = $request->date;
-        $date = '2017/12/29';
+        $transactions   = 0;
+        $date           = Carbon::parse($request->date)->format('d/m/Y');
+        $verify_status  = Transaction::where('dateTrans', $date)->take(5)->get('fk_Estat');
 
-        // $response_status = DB::select("SELECT trans_estatus('$date', 0)");
-
-        if(!Cache::has('preliminaries')) {
-            $response_organize = DB::select("SELECT trans_organiza('29/12/2017')");
-            if($response_organize[0]->trans_organiza) {
-                $preliminaries = DB::select("SELECT trans_reporte('29/12/2017')");
-                Cache::add('preliminaries', $preliminaries);
-            }
+        if(empty($verify_status->first())) {
+            $done       = false;
+            $message    = 'No hay registros de esta fecha, por favor escoga otra e intente nuevamente';
         } else {
-            $preliminaries = Cache::get('preliminaries');
+            $filtered  = $verify_status->filter(function($status) {
+                return $status->fk_Estat > 0;
+            })->first();
+
+            if(empty($filtered)) {
+                $preliminaries  = DB::select("SELECT trans_reporte('$date')");
+
+                if($preliminaries) {
+                    $temporary      = $this->organizeData($preliminaries);
+                    $transactions   = $this->filterTemporary($temporary);
+                    
+                    $done       = true;
+                    $message    = 'Datos filtrados correctamente';
+                } else {
+                    $done       = false;
+                    $message    = 'Algo salió mal contactar al administrador del sistema';
+                }         
+            } else {
+                // Buscar el archivo en el Storage
+                $route = $this->routeForExcel($request->date);
+
+                if (Storage::disk('public')->exists("$route[0]")) {
+                    array_push($route, 'storage');
+                    $transactions   = $route;
+                    $done           = true;
+                    $message        = 'Reporte encontrado correctamente, descarguelo si desea';
+                } else {
+                    $done       = false;
+                    $message    = 'No hay reportes con esta fecha, por favor escoga otra e intente nuevamente';
+                }
+            }
         }
 
-        // Cache::flush();
-
-        $temporary      = $this->organizeData($preliminaries);
-        $transactions   = $this->filterTemporary($temporary);
+        // Log de eventos del usuario
+        $this->registerLog("Consulta de datos de transacciones para reporte en excel fecha: $date");
 
         return response()->json([
-            'success'       => true,
-            'message'       => 'Datos filtrados correctamente!',
+            'success'       => $done,
+            'message'       => $message,
             'transactions'  => $transactions
         ], 200);
     }
@@ -136,25 +151,17 @@ class HomeController extends Controller
             $date_req    = $definitives[0]['fecha'];
             $json        = $definitives->toJson();
             $response    = Transaction::trans_confirma($date_req, $json);
-
-            // Pasar datos a Excel y guardar
-            $part_date   = explode('-', $date_req);
-            $full_date   = str_replace('-', '', $date_req);
-            $date        = Carbon::parse($date_req);
-            $month       = ucfirst($date->translatedFormat("F"));
-            $name        = 'IGTF_' . substr($date_req, 0, 6) . substr($date_req, 8, 10);
-            $route       = "IGTF/REPORTE_EXCEL/AÑO$part_date[2]/$month$part_date[2]/$full_date/$name.xls";
-            $excel       = (new TransactionsExport($all_data))->store("$route", 'public');
-
-            // Esta funcion de base de datos no sirve (revisar)
-            // $response = DB::select("SELECT trans_confirma('$date', '$json')");
-
+            
             if($response) {
+                // Pasar datos a Excel y guardar
+                $route = $this->routeForExcel($date_req);
+                $excel = (new TransactionsExport($all_data))->store("$route[0]", 'public');
+
                 return response()->json([
                     'success'       => true,
                     'message'       => 'Confirmación emitida correctamente!',
-                    'route_file'    => $route,
-                    'name_file'     => $name
+                    'route_file'    => $route[0],
+                    'name_file'     => $route[1]
                 ], 200);
             } else {
                 return response()->json([
@@ -178,85 +185,93 @@ class HomeController extends Controller
     }
 
     public function showXML(Request $request) {
-        // $date = $request->date;
-        $date = Carbon::parse('2017/12/29')->format('d-m-Y');
-        if(!Cache::has('transactions')) {
-            $transactions = DB::select("SELECT trans_banco_detalle('$date')");
-            // Esta funcion de base de datos no sirve (revisar)
-            // $res = DB::select("SELECT trans_banco('$date')");
-            if($transactions[0]->trans_banco_detalle) {
-                Cache::add('transactions', $transactions);
+        $date = Carbon::parse("$request->date")->format('d-m-Y');
+
+        // Definir variables
+        $ITFBancoDetalle        = 0;
+        $ITFBanco               = 0;
+        $ITFBancoConfirmacion   = 0;
+
+        // Generar rutas
+        $route  = $this->routeITFBancoDetalle($request->date);
+        $route2 = $this->routeITFBanco($request->date);
+        $route3 = $this->routeITFBancoConfirmacion($request->date);
+
+        // Consultar si los archivos ya existen en el servidor
+        if(!empty($route) && !empty($route2) && !empty($route3)) {
+            if(
+                Storage::disk('public')->exists("$route[0]") &&
+                Storage::disk('public')->exists("$route2[0]") &&
+                Storage::disk('public')->exists("$route3[0]")
+            ) {
+                $ITFBancoDetalle        = Storage::disk('public')->get("$route[0]");
+                $ITFBanco               = Storage::disk('public')->get("$route2[0]");
+                $ITFBancoConfirmacion   = Storage::disk('public')->get("$route3[0]");
+
+                $done       = true;
+                $message    = 'Los reportes ya existen';
+            } else {
+                // Buscar las trasacciones con la fecha enviada desde el client
+                $transactions = DB::select("SELECT trans_banco_detalle('$date')");
+                
+                if(empty($transactions)) {
+                    $done       = false;
+                    $message    = 'No hay registros de esta fecha, por favor escoga otra e intente nuevamente';
+                } else {
+                    // Organizar y crear archivo XML ITFBancoDetalle
+                    $transactions    = $this->organizeDataXML($transactions);
+                    $ITFBancoDetalle = $this->createITFBancoDetalle($transactions, $date);
+            
+                    // Almacenar archivos en el servidor
+                    $disk  = Storage::disk('public')->put("$route[0]", $ITFBancoDetalle);
+            
+                    // Calcular hash del archivo
+                    if($disk) {
+                        $hash = sha1_file(public_path("storage/$route[0]"));
+
+                        if($hash) {
+                            // Crear archivo XML ITFBanco y ITFBancoConfirmacion
+                            $ITFBanco             = $this->createITFBanco($transactions, $date, $hash);
+                            $ITFBancoConfirmacion = $this->createITFBancoConfirmacion($transactions, $hash);
+                    
+                            // Almacenar ITFBanco y ITFBancoConfirmacion en el servidor
+                            $disk2  = Storage::disk('public')->put("$route2[0]", $ITFBanco);
+                            $disk3  = Storage::disk('public')->put("$route3[0]", $ITFBancoConfirmacion);
+
+                            if($disk2 && $disk3) {
+                                $done       = true;
+                                $message    = 'Los reportes fueron creados y almacenados satisfactoriamente';
+                            }
+                        }
+                    }            
+                }
             }
-        } else {
-            $transactions = Cache::get('transactions');
-        }
+        } 
 
-        // Cache::flush();
+        // Log de eventos del usuario
+        $this->registerLog("Consulta de datos de transacciones para reportes xml (ITFBancoDetalle, ITFBanco y ITFBancoConfirmacion) fecha: $date");
 
-        // Organizar y crear archivo XML ITFBancoDetalle
-        $transactions    = $this->organizeDataXML($transactions);
-        $ITFBancoDetalle = $this->createITFBancoDetalle($transactions, $date);
-
-        // Organizar para los nombres y rutas de los archivos
-        $part_date  = explode('-', $date);
-        $full_date  = str_replace('-', '', $date);
-        $date_new   = Carbon::parse($date);
-        $month      = ucfirst($date_new->translatedFormat("F"));
-        $week       = $date_new->weekday();
-
-        // Ruta ITFBancoDetalle y almacenar archivos en el servidor
-        $name  = 'ITF_' . substr($date, 0, 6) . substr($date, 8, 10);
-        $route = "IGTF/AÑO$part_date[2]/XML/$month$part_date[2]/XML_DETALLADO_DIARIO/SEMANA$week/$full_date/$name.xml";
-        $disk  = Storage::disk('public')->put("$route", $ITFBancoDetalle);
-
-        // Calcular hash del archivo
-        if($disk) {
-            $hash = sha1_file(public_path("storage/$route"));
-        }
-
-        // Crear archivo XML ITFBanco y ITFBancoConfirmacion
-        $ITFBanco             = $this->createITFBanco($transactions, $date, $part_date, $hash);
-        $ITFBancoConfirmacion = $this->createITFBancoConfirmacion($transactions, $date, $hash);
-
-        // Ruta ITFBanco
-        $route_general = "IGTF/AÑO$part_date[2]/XML/$month$part_date[2]/XML_RESUMEN_DIARIO/Semana_$week/$full_date";
-        $name2         = 'ITF_Banco';
-        $route2        = "$route_general/$name2.xml";
-        $disk2         = Storage::disk('public')->put("$route2", $ITFBanco);
-
-        // Ruta ITFBancoConfirmacion
-        $name3  = 'ITFBancoConfirmacion';
-        $route3 = "$route_general/confirmacion/$name3.xml";
-        $disk3  = Storage::disk('public')->put("$route3", $ITFBancoConfirmacion);
-
-        if($disk && $disk2 && $disk3) {
-            return response()->json([
-                'success'       => true,
-                'message'       => 'Datos filtrados correctamente!',
-                'files'         => [
-                    'ITFBancoDetalle' => [
-                        'file'  => $ITFBancoDetalle,
-                        'route' => $route,
-                        'name'  => $name
-                    ],
-                    'ITFBanco' => [
-                        'file'  => $ITFBanco,
-                        'route' => $route2,
-                        'name'  => $name2
-                    ],
-                    'ITFBancoConfirmacion' => [
-                        'file'  => $ITFBancoConfirmacion,
-                        'route' => $route3,
-                        'name'  => $name3
-                    ]
+        return response()->json([
+            'success'       => $done,
+            'message'       => $message,
+            'files'         => [
+                'ITFBancoDetalle' => [
+                    'file'  => $ITFBancoDetalle,
+                    'route' => $route[0],
+                    'name'  => $route[1]
+                ],
+                'ITFBanco' => [
+                    'file'  => $ITFBanco,
+                    'route' => $route2[0],
+                    'name'  => $route2[1]
+                ],
+                'ITFBancoConfirmacion' => [
+                    'file'  => $ITFBancoConfirmacion,
+                    'route' => $route3[0],
+                    'name'  => $route3[1]
                 ]
-            ], 200);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Algo salio mal en la base de datos!',
-            ], 500);
-        }
+            ]
+        ], 200);
     }
 
     private function organizeDataXML($all_transactions) {
@@ -351,7 +366,8 @@ class HomeController extends Controller
         return $doc->saveXML();
     }
 
-    private function createITFBanco($transactions, $date, $part_date, $hash) {
+    private function createITFBanco($transactions, $date, $hash) {
+        $part_date        = explode('-', $date);
         $now              = Carbon::now();
         $transmition_date = $now->format('d-m-Y');
         $transmition_hour = $now->format('H:m:s');
@@ -455,7 +471,7 @@ class HomeController extends Controller
         return $concept_totals;
     }
 
-    private function createITFBancoConfirmacion($transactions, $date, $hash) {
+    private function createITFBancoConfirmacion($transactions, $hash) {
         $doc = new \DOMDocument('1.0', 'UTF-8');
       
         $root = $doc->createElement("ITFBancoDetalle");

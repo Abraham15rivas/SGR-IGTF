@@ -5,7 +5,7 @@
                 <div class="card-header card-header-bav">
                     <h3 class="card-title">Datos personales</h3>
                 </div>
-                <div v-if="profile.image" class="card card-primary card-outline">
+                <div v-if="!profile.image == null" class="card card-primary card-outline">
                     <div class="card-body box-profile">
                         <div class="text-center">
                             <img class="profile-user-img img-fluid img-circle"
@@ -83,12 +83,14 @@
                     let params = new FormData(
                         document.getElementById('form_profile')
                     )
+                    
                     params.append("first_name", this.profile.first_name)
                     params.append("second_name", this.profile.second_name ?? '')
                     params.append("surname", this.profile.surname)
                     params.append("first_name", this.profile.first_name)
                     params.append("second_surname", this.profile.second_surname ?? '')
                     params.append("image", this.profile.image)
+
                     let response = await axios.post(url, params)
                     const object = response.data
                     if(object.success == true) {

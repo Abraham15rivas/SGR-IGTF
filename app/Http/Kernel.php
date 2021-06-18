@@ -33,7 +33,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
-            // \Illuminate\Session\Middleware\AuthenticateSession::class,
+            \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'manager' => \App\Http\Middleware\Manager::class,
         'analyst' => \App\Http\Middleware\Analyst::class,
         'manager-analyst' => \App\Http\Middleware\ManagerAnalyst::class,
+        'admin-manager' => \App\Http\Middleware\AdminManager::class,
     ];
 }

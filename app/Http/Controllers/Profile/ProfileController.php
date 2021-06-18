@@ -8,9 +8,12 @@ use App\Models\{Profile, User};
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Traits\LogTrait;
 
 class ProfileController extends Controller
 {
+    use LogTrait;
+
     public function index() {
         $user = auth()->user();
         $title = "Perfil de usuario $user->name";
@@ -32,6 +35,9 @@ class ProfileController extends Controller
                 $profile->image = explode('public/', $path)[1];
             }
             $profile->save();
+
+            // Log de eventos del usuario
+            $this->registerLog("El usuario registro sus datos de perfil");
 
             return response()->json([
                 'success' => true,
@@ -74,6 +80,10 @@ class ProfileController extends Controller
                 'image'             => $request->image,
                 'user_id'           => $user->id
             ]);
+
+            // Log de eventos del usuario
+            $this->registerLog("El usuario actualizo sus datos de perfil");
+
             return response()->json([
                 'success' => true,
                 'profile' => $profile,
@@ -109,6 +119,9 @@ class ProfileController extends Controller
             $user->update([
                 'password' => Hash::make($request->password)
             ]);
+
+            // Log de eventos del usuario
+            $this->registerLog("El usuario cambio su contraseña de acceso al sistema");
 
             return response()->json([
                 'success' => true,

@@ -7,8 +7,9 @@ window.Vue = require('vue').default;
 // Importar librerias
 import store from './store'
 import VueExcelEditor from 'vue-excel-editor'
+import HighchartsVue from 'highcharts-vue'
 
-// Definir los componentes
+// Definir los componentes globales
 Vue.component('welcome-component', require('./components/WelcomeComponent.vue').default);
 Vue.component('home-component', require('./components/HomeComponent.vue').default);
 Vue.component('index-component', require('./components/admin/IndexComponent.vue').default);
@@ -17,8 +18,13 @@ Vue.component('change-password-component', require('./components/profile/ChangeP
 Vue.component('show-transaction-component', require('./components/report/ShowTransactionComponent.vue').default);
 Vue.component('show-xml-component', require('./components/report/ShowFileXmlComponent.vue').default);
 Vue.component('calendar-component', require('./components/manager/CalendarComponent.vue').default);
+Vue.component('statistics-component', require('./components/manager/audit/StatisticsComponent.vue').default);
+Vue.component('user-activity-component', require('./components/manager/audit/UserActivityComponent.vue').default);
 Vue.component('user-list-component', require('./components/admin/users/UserListComponent.vue').default);
+
+// Components de las librerias
 Vue.use(VueExcelEditor)
+Vue.use(HighchartsVue)
 
 /* 
     Obtener y asignar un atributo id con el nombre "app" a la primera etiqueta <div> 

@@ -139,16 +139,30 @@
                         let response = await axios.get(url)
                         const object = response.data
                         if(object.success == true) {
-                            Swal.fire({
-                                position: 'top-end',
-                                icon: 'success',
-                                title: `${ object.message }`,
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                            this.transactions = object.transactions
-                            this.filterTransaction()
-                            this.ready = true
+                            if(object.transactions[2] == 'storage') {
+                                Swal.fire({
+                                    icon: 'info',
+                                    title: 'Ya fue procesado',
+                                    text: `${ object.message }`,
+                                    footer: `<a
+                                                href="/storage/${ object.transactions[0] }"
+                                                download="${ object.transactions[1] }" 
+                                            >
+                                                Descargar aquí
+                                            </a>`
+                                })
+                            } else {
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: `${ object.message }`,
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                                this.transactions = object.transactions
+                                this.filterTransaction()
+                                this.ready = true
+                            }
                         } else {
                             Swal.fire({
                                 icon: 'error',

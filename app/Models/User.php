@@ -21,7 +21,8 @@ class User extends Authenticatable
         'email',
         'password',
         'status',
-        'role_id'
+        'role_id',
+        'session_id'
     ];
 
     /**
@@ -46,11 +47,14 @@ class User extends Authenticatable
     // Métodos de AdminLTE
     public function adminlte_image() {
         $profile = Profile::where('user_id', $this->id)->first();
+        $value   = '/images/default.png';
+
         if(!empty($profile)) {
-            return "/storage/$profile->image";
-        } else {
-            return '/images/default.png';
+            if($profile->image) {
+                $value = "/storage/$profile->image";
+            }
         }
+        return $value;
     }
 
     public function adminlte_desc() {
@@ -67,5 +71,9 @@ class User extends Authenticatable
 
     public function profile() {
         return $this->hasOne(Profile::class);
+    }
+
+    public function logs() {
+        return $this->hasMany(Log::class);
     }
 }
