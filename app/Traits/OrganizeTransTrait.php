@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use Illuminate\Support\facades\DB;
+use Illuminate\Support\Facades\DB;
 
 trait OrganizeTransTrait {
     

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Manager;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\facades\DB;
+use Illuminate\Support\Facades\DB;
 use App\Traits\LogTrait;
 use App\Models\{
     Log,

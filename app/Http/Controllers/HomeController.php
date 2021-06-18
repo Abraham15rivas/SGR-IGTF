@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\{ItfTrans02, Transaction};
 use Illuminate\Support\Facades\Cache;
 use Carbon\Carbon;
-use Illuminate\Support\facades\DB;
+use Illuminate\Support\Facades\DB;
 use App\Exports\TransactionsExport;
 use Illuminate\Support\Facades\Storage;
 use App\Traits\{
