@@ -19,16 +19,16 @@ class Transaction extends Model
     ];
 
     static public function trans_confirma($date, $json) {
-        $date   = Carbon::parse($date)->format('Y-m-d');
+        // $date   = Carbon::parse($date)->format('Y-m-d');
         $status = TransactionStatus::where('descEstat', 'confirmado')->value('pk_Estat');
         foreach(json_decode($json) as $transaction) {
             $get_trans = self::find($transaction->id, ['pk_Trans', 'fk_Estat', 'dateTrans']);
        
-            if(Carbon::parse($get_trans->dateTrans)->format('Y-m-d') == $date) {
+            // if(Carbon::parse($get_trans->dateTrans)->format('Y-m-d') == $date) {
                 $get_trans->update([
                     'fk_Estat' => $status
                 ]);
-            }
+            // }
         }
         return true;
     }
