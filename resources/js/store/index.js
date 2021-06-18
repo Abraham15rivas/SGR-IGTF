@@ -7,7 +7,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state:{
         user: null,
-        profile: null
+        profile: null,
+        roles: null
     },
     mutations:{
         setUser(state, payload) {
@@ -15,6 +16,9 @@ export default new Vuex.Store({
         },
         setProfile(state, payload) {
             state.profile = payload
+        },
+        setRoles(state, payload) {
+            state.roles = payload
         }
     },
     actions:{
@@ -41,7 +45,19 @@ export default new Vuex.Store({
             } catch (error) {
                 console.log(error)
             }
-        }
+        },
+        async getRoles(context) {
+            try {
+                let url = `/admin/roles`
+                const responses = await axios.get(url);
+                if(responses.data) {
+                    const roles = responses.data
+                    context.commit('setRoles', roles);
+                }                
+            } catch (error) {
+                console.log(error)
+            }
+        },
     },
     getters: {
         getRoleUser(state) {

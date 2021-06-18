@@ -14,14 +14,18 @@ class LogEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $ip_address, $description, $user_id;
+
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($ip_address, $description, $user_id)
     {
-        //
+        $this->ip_address   = $ip_address;
+        $this->description  = $description;
+        $this->user_id      = $user_id;
     }
 
     /**

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -36,5 +38,25 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        /* Para mantener solo una sesión activa por dispositivo o client web,
+        Con el method definido se cierran las sesiónes abiertas en otros dispositivos */
+        Auth::logoutOtherDevices($request['password']);
+        
+        // Para evitar el acceso al sistema de los usuarios deshabilitados
+        if($user->status == 0) {
+            Auth::logout();
+            abort(403, 'No puede ingresar al sistema su usuario fue deshabilitado, por favor ponerse en contacto con el administrador. liliana.guerra@bav.com.ve');
+        }
     }
 }

@@ -187,7 +187,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => 'home',
+    'dashboard_url' => '#',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => false,
@@ -270,13 +270,13 @@ return [
         ],
         [
             'text'  => 'Actividades de usuarios',
-            'url' => '#',
+            'route' => 'audit.log',
             'icon'  => 'fas fa-fw fa-tasks',
             'can'   => ['admin', 'manager']
         ],
         [
             'text'  => 'Estadisticas',
-            'url' => '#',
+            'route' => 'audit.statistics',
             'icon'  => 'fas fa-fw fa-chart-bar',
             'can'   => ['admin', 'manager']
         ],

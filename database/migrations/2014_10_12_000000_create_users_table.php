@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->boolean('status')->default(1);
             $table->foreignId('role_id')->references('id')->on('roles')->onDelete('cascade')->onUpdate('cascade');
+            $table->text('session_id')->nullable()->default(null)->comment('Almacena el id de la sesión del usuario');
             $table->rememberToken();
             $table->timestamps();
         });

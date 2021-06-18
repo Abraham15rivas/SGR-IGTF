@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Listeners;
+
+use Illuminate\Auth\Events\Login;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\facades\Session;
+use App\Traits\LogTrait;
+
+class LogSuccessfulLogin
+{
+    use LogTrait;
+    /**
+     * Create the event listener.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //
+    }
+
+    /**
+     * Handle the event.
+     *
+     * @param  Login  $event
+     * @return void
+     */
+    public function handle(Login $event)
+    {
+        $previous_session = auth()->user()->session_id;
+        if ($previous_session) {
+            Session::getHandler()->destroy($previous_session);
+        }
+    
+        auth()->user()->session_id = Session::getId();
+        auth()->user()->save();
+
+        // Log de eventos del usuario
+        $this->registerLog('Inició sesión en el sistema');
+    }
+}

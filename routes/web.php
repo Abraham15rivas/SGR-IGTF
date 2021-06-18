@@ -7,9 +7,15 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Manager\ManagerController;
+use App\Http\Controllers\Analyst\AnalystController;
 
 // Rutas de autenticación
 Auth::routes();
+
+// Token CSRF de la session activa actualmente
+Route::get('/csrf-token-active', function(Request $request) {
+    return $request->session()->token();
+});
 
 // Rutas de los usuarios
 Route::get('/', function(Request $request) {
@@ -23,6 +29,7 @@ Route::get('/', function(Request $request) {
         return redirect()->to('login');
     }
 })->name('root');
+
 // grupos de rutas usuarios autenticados
 Route::group([
     'middleware' => 'auth'
@@ -35,9 +42,11 @@ Route::group([
     Route::get('/profile/show', [ProfileController::class, 'show'])->name('profile.show');
     Route::post('/profile/store', [ProfileController::class, 'store'])->name('profile.store');
     Route::post('/profile/update/{profile}', [ProfileController::class, 'update'])->name('profile.update');
+    
     // Rutas cambio de password del usuario
     Route::get('/profile/change/password', [ProfileController::class, 'changePassword'])->name('profile.pass');
     Route::put('/profile/update/password/{user}', [ProfileController::class, 'setPassword'])->name('profile.update.pass');
+    
     // Rutas compartidas para Gerentes y analistas
     Route::middleware(['manager-analyst'])->group(function () {
         Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -47,13 +56,22 @@ Route::group([
         Route::get('/show/xml/transaction', [HomeController::class, 'indexXML'])->name('index.xml');
         Route::get('/show/xml/transaction/{date}', [HomeController::class, 'showXML'])->name('show.xml');
     });
+    
+    // Rutas compartidas para Gerentes y Administrador
+    Route::middleware(['admin-manager'])->group(function () {
+        Route::get('/audit/log', [ManagerController::class, 'log'])->name('audit.log');
+        Route::get('/audit/statistics', [ManagerController::class, 'statistics'])->name('audit.statistics');
+    });
+
     // Grupo de rutas del analista
     Route::group([
-        'middleware' => 'analyst'
+        'middleware' => 'analyst',
+        'prefix'     => 'analyst'
     ], function () {
-        // code
+        Route::get('/change/status/{date}/{value}', [AnalystController::class, 'changeStatusTransaction'])->name('change.status');
     });
-    // Grupo de rutas del usuario de seguridad
+    
+    // Grupo de rutas del usuario Gerente
     Route::group([
         'middleware' => 'manager',
         'prefix'     => 'manager'

@@ -29,6 +29,8 @@
         "@fullcalendar/daygrid": "^5.5.0",
         "@fullcalendar/interaction": "^5.5.0",
         "@fullcalendar/vue": "^5.5.0",
+        "highcharts": "^9.1.2",
+        "highcharts-vue": "^1.4.0",
         "icheck-bootstrap": "^3.0.1",
         "moment": "^2.29.1",
         "overlayscrollbars": "^1.13.1",
