@@ -31,7 +31,7 @@ class HomeController extends Controller
     
     public function showTransactionExcel(Request $request) {
         $transactions   = 0;
-        $date           = Carbon::parse($request->date)->format('Y-m-d');
+        $date           = $date = $request->date; //Carbon::parse($request->date)->format('Y-m-d');
         $verify_status  = Transaction::where('dateTrans', $date)->take(5)->get('fk_Estat');
 
         if(empty($verify_status->first())) {
@@ -185,7 +185,7 @@ class HomeController extends Controller
     }
 
     public function showXML(Request $request) {
-        $date = Carbon::parse("$request->date")->format('Y-m-d');
+        $date = $request->date; //Carbon::parse("$request->date")->format('Y-m-d');
 
         // Definir variables
         $ITFBancoDetalle        = 0;
