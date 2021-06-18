@@ -5,7 +5,7 @@ namespace App\Listeners;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\facades\Session;
+use Illuminate\Support\Facades\Session;
 use App\Traits\LogTrait;
 
 class LogSuccessfulLogin
