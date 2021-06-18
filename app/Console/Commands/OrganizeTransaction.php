@@ -41,8 +41,8 @@ class OrganizeTransaction extends Command
      */
     public function handle()
     {
-        // $date = Carbon::now()->format('d/m/Y');
-        $date       = '29/12/2017';
+        // $date = Carbon::now()->format('Y-m-d');
+        $date       = '2017-12-29';
         $response   = $this->organize($date);
         return $response;
     }

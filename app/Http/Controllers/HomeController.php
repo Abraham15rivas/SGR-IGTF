@@ -31,7 +31,7 @@ class HomeController extends Controller
     
     public function showTransactionExcel(Request $request) {
         $transactions   = 0;
-        $date           = Carbon::parse($request->date)->format('d/m/Y');
+        $date           = Carbon::parse($request->date)->format('Y-m-d');
         $verify_status  = Transaction::where('dateTrans', $date)->take(5)->get('fk_Estat');
 
         if(empty($verify_status->first())) {
@@ -185,7 +185,7 @@ class HomeController extends Controller
     }
 
     public function showXML(Request $request) {
-        $date = Carbon::parse("$request->date")->format('d-m-Y');
+        $date = Carbon::parse("$request->date")->format('Y-m-d');
 
         // Definir variables
         $ITFBancoDetalle        = 0;
@@ -299,7 +299,8 @@ class HomeController extends Controller
     }
 
     private function createITFBancoDetalle($transactions, $date) {
-        $doc = new \DOMDocument('1.0', 'UTF-8');
+        $date   = Carbon::parse("$date")->format('d-m-Y'); 
+        $doc    = new \DOMDocument('1.0', 'UTF-8');
 
         $root = $doc->createElement("ITFBancoDetalle");
         $root = $doc->appendChild($root);
@@ -367,6 +368,7 @@ class HomeController extends Controller
     }
 
     private function createITFBanco($transactions, $date, $hash) {
+        $date             = Carbon::parse("$date")->format('d-m-Y');
         $part_date        = explode('-', $date);
         $now              = Carbon::now();
         $transmition_date = $now->format('d-m-Y');
