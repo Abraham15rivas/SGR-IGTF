@@ -15,4 +15,5 @@ Route::group([
     Route::get('/roles', [HomeController::class, 'allRoles']);
     Route::post('/register', [HomeController::class, 'register']);
     Route::post('/update/{user}', [HomeController::class, 'update']);
+    Route::get('/confirm/notification', [HomeController::class, 'confirmNotification']);
 });

@@ -58,7 +58,7 @@ class User extends Authenticatable
     }
 
     public function adminlte_desc() {
-        return '';
+        return $this->role->name;
     }
 
     public function adminlte_profile_url() {
@@ -75,5 +75,9 @@ class User extends Authenticatable
 
     public function logs() {
         return $this->hasMany(Log::class);
+    }
+
+    public function notification() {
+        return $this->hasOne(Notification::class);
     }
 }

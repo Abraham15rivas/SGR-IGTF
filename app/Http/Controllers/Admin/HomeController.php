@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\LogTrait;
-use App\Models\{Role};
+use App\Models\{
+    Role,
+    User,
+    Notification
+};
 use Illuminate\Support\Facades\{
     Validator, 
     Hash
@@ -23,8 +26,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $title = 'Vista principal';
-        return view('admin.index', compact('title'));
+        $title          = 'Vista principal';
+        $notifications  = Notification::where('user_id', auth()->user()->id)
+                                        ->where('status', true)
+                                        ->get()
+                                        ->toJson();
+
+        return view('admin.index', compact('title', 'notifications'));
     }
 
     public function dataUserList() {
@@ -132,5 +140,16 @@ class HomeController extends Controller
             'user'      => $user,
             'message'   => '¡Usuario actualizado correctamente! ',
         ], 200);
+    }
+
+    public function confirmNotification() {
+        $user_id        = auth()->user()->id;
+        $notifications  = Notification::where('user_id', $user_id)->get();
+        
+        foreach($notifications as $notification) {
+            $notification->update([
+                'status' => false
+            ]);
+        }
     }
 }

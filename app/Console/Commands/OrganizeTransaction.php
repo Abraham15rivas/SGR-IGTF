@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Traits\OrganizeTransTrait;
 use Carbon\Carbon;
+use App\Models\Notification;
 
 class OrganizeTransaction extends Command
 {
@@ -41,9 +42,17 @@ class OrganizeTransaction extends Command
      */
     public function handle()
     {
-        // $date = Carbon::now()->format('Y-m-d');
-        $date       = '2017-12-29';
+        // $date = Carbon::now()->format('d/m/Y');
+        $date       = '29/12/2017';
         $response   = $this->organize($date);
+
+        if($response == true) {
+            Notification::create([
+                'description'   => "Datos de las transacciones de la fecha: $date fueron organizados correctamente",
+                'user_id'       => 1
+            ]);
+        }
+
         return $response;
     }
 }
