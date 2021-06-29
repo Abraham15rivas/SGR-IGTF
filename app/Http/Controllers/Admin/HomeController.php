@@ -8,11 +8,13 @@ use App\Traits\LogTrait;
 use App\Models\{
     Role,
     User,
-    Notification
+    Notification,
+    TransactionStatus
 };
 use Illuminate\Support\Facades\{
     Validator, 
-    Hash
+    Hash,
+    DB
 };
 
 class HomeController extends Controller
@@ -151,5 +153,36 @@ class HomeController extends Controller
                 'status' => false
             ]);
         }
+    }
+
+    public function statusManager() {
+        $status = TransactionStatus::get();
+        $title  = 'Administrador de estado';
+
+        // Log de eventos del usuario
+        $this->registerLog('Visito el administrador de status de las transacciones');
+
+        return view('admin.status.index', compact('status', 'title'));
+    }
+
+    public function changeStatusTransaction($date, $value) {
+        $response_status    = DB::select("SELECT trans_estatus('$date', '$value')");
+        $success            = false;
+        $message            = '';
+
+        // Log de eventos del usuario
+        $this->registerLog("Cambio de status de las transacciones de la fecha: $date a el status de valor: $value");
+        
+        if($response_status[0]->trans_estatus) {
+            $success = true;
+            $message = 'Cambio efectuado correctamente';
+        } else {
+            $message = 'No existen transacciones con la fecha especificada';
+        }
+
+        return response()->json([
+            'success'   => $success,
+            'message'   => $message
+        ], 200);
     }
 }

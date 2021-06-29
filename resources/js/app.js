@@ -17,10 +17,11 @@ Vue.component('show-component', require('./components/profile/ShowComponent.vue'
 Vue.component('change-password-component', require('./components/profile/ChangePasswordComponent.vue').default);
 Vue.component('show-transaction-component', require('./components/report/ShowTransactionComponent.vue').default);
 Vue.component('show-xml-component', require('./components/report/ShowFileXmlComponent.vue').default);
-Vue.component('calendar-component', require('./components/manager/CalendarComponent.vue').default);
+Vue.component('calendar-component', require('./components/manager/calendar/CalendarComponent.vue').default);
 Vue.component('statistics-component', require('./components/manager/audit/StatisticsComponent.vue').default);
 Vue.component('user-activity-component', require('./components/manager/audit/UserActivityComponent.vue').default);
 Vue.component('user-list-component', require('./components/admin/users/UserListComponent.vue').default);
+Vue.component('status-component', require('./components/admin/status/StatusComponent.vue').default);
 
 // Components de las librerias
 Vue.use(VueExcelEditor)

@@ -317,7 +317,17 @@ return [
             'icon'  => 'fas fa-fw fa-calendar',
             'route' => 'calendar',
             'can'   => 'manager'
-        ]
+        ],
+        [
+            'header'=> 'ADMINISTRADOR DE STATUS',
+            'can'   => 'admin'
+        ],
+        [
+            'text'  => 'Status de transacciones',
+            'route' => 'change.status',
+            'icon'  => 'fas fa-fw fa-clock',
+            'can'   => 'admin'
+        ],
     ],
 
     /*

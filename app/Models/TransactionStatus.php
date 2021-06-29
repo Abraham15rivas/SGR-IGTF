@@ -11,4 +11,5 @@ class TransactionStatus extends Model
 
     protected $table = 'EstatTrans';
     protected $primaryKey = 'pk_Estat';
+    public $timestamps = false;
 }

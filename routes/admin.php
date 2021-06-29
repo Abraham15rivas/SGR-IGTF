@@ -16,4 +16,6 @@ Route::group([
     Route::post('/register', [HomeController::class, 'register']);
     Route::post('/update/{user}', [HomeController::class, 'update']);
     Route::get('/confirm/notification', [HomeController::class, 'confirmNotification']);
+    Route::get('/change/status/', [HomeController::class, 'statusManager'])->name('change.status');
+    Route::get('/change/status/{date}/{value}', [HomeController::class, 'changeStatusTransaction']);
 });

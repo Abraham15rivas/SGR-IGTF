@@ -10,4 +10,6 @@ class Customer extends Model
     use HasFactory;
 
     protected $table = 'customers';
+    protected $primaryKey = 'pk_Cte';
+    public $timestamps = false;
 }

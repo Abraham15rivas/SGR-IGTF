@@ -134,19 +134,39 @@
                     console.log(error)
                 }
             },
-            async changeStatus(index, id) {
+            changeStatus(index, id) {
+                Swal.fire({
+                    title: `¿Deseas continuar con esta acción?`,
+                    text: "¡Seguro!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Si, continuar!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire(
+                            'Cambios efectuados de manera satisfactoria',
+                            'Listo',
+                            'success'
+                        )
+                        this.change(index, id)
+                    }
+                })
+            },
+            async change(index, id) {
                 try {
-                    let url = `/admin/change/status/user/${ id}`
+                    let url = `/admin/change/status/user/${ id }`
                     let response = await axios.put(url)
                     const object = response.data
                     if(object) {
                         this.list_user[index].status = !this.list_user[index].status
                     } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: `Algo salió mal`,
-                            })
-                        }
+                        Swal.fire({
+                            icon: 'error',
+                            title: `Algo salió mal`,
+                        })
+                    }
                 } catch (error) {
                     console.log(error)
                 }

@@ -25,64 +25,117 @@
 </template>
 
 <script>
-    import Swal from 'sweetalert2'
-    import { mapActions, mapGetters } from 'vuex'
     export default {
         props: {
-            data: Array
+            data: Array,
         },
         data() {
             return {
                 options: ['spline', 'line', 'bar', 'pie', 'column'],
+                user: this.data[0].user,
+                months: this.data[0].months
             }
         },
         computed: {
             chartOptions() { 
                 return {
-                        chart: { 
-                            type: 'pie' 
-                        },
-                        title: { 
-                            text: `Total de usuarios registrados: ${ this.data[0].user_totals }` 
-                        },
-                        series: [{
-                            name: 'Usuarios',
-                            colorByPoint: true,
-                            data: [
-                                {
-                                    name: 'Conectados al sistema',
-                                    y: this.data[0].sessions_active,
-                                    sliced: true,
-                                    selected: true
-                                }, 
-                                {
-                                    name: 'Desconectados del sistema',
-                                    y: this.data[0].sessions_deactivate,
-                                },
-                                {
-                                    name: 'Habilitados',
-                                    y: this.data[0].user_enabled,
-                                },
-                                {
-                                    name: 'Deshabilitados',
-                                    y: this.data[0].user_disabled,
-                                },
-                            ]
-                        }]
+                    chart: { 
+                        type: 'pie' 
+                    },
+                    title: { 
+                        text: `Total de usuarios registrados: ${ this.user.user_totals }` 
+                    },
+                    series: [{
+                        name: 'Usuarios',
+                        colorByPoint: true,
+                        data: [
+                            {
+                                name: 'Conectados al sistema',
+                                y: this.user.sessions_active,
+                                sliced: true,
+                                selected: true
+                            }, 
+                            {
+                                name: 'Desconectados del sistema',
+                                y: this.user.sessions_deactivate,
+                            },
+                            {
+                                name: 'Habilitados',
+                                y: this.user.user_enabled,
+                            },
+                            {
+                                name: 'Deshabilitados',
+                                y: this.user.user_disabled,
+                            },
+                        ]
+                    }]
                 }
             },
             chartOptions2() {
                 return {
-                        chart: { type: 'column' },
-                        title: { text: 'Por definir' },
-                        series: [
-                            {
-                                data: [15, 3, 6, 2, 6, 4, 5, 5]
-                            },
-                            {
-                                data: [12, 1, 4, 3, 8, 1, 3, 7]
-                            },
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: `Transacciones mensuales`
+                    },
+                    subtitle: {
+                        text: `Total de transacciones: ${ this.months.total }`
+                    },
+                    xAxis: {
+                        categories: [
+                            'Jan',
+                            'Feb',
+                            'Mar',
+                            'Apr',
+                            'May',
+                            'Jun',
+                            'Jul',
+                            'Aug',
+                            'Sep',
+                            'Oct',
+                            'Nov',
+                            'Dec'
+                        ],
+                        crosshair: true
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Cantidad'
+                        }
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                            '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                        }
+                    },
+                    series: [{
+                        name: '2017',
+                        data: [
+                            this.months.name.enero,
+                            this.months.name.febrero,
+                            this.months.name.marzo,
+                            this.months.name.abril,
+                            this.months.name.mayo,
+                            this.months.name.junio,
+                            this.months.name.julio,
+                            this.months.name.agosto,
+                            this.months.name.septiembre,
+                            this.months.name.obtubre,
+                            this.months.name.noviembre,
+                            this.months.name.diciembre
                         ]
+                    }]
                 }
             }
         },

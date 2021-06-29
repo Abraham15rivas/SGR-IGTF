@@ -9,5 +9,7 @@ class Account extends Model
 {
     use HasFactory;
 
-    protected $table = 'accounts';
+    protected $table = 'Cuentas';
+    protected $primaryKey = 'pk_Ctas';
+    public $timestamps = false;
 }

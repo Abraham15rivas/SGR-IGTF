@@ -68,7 +68,7 @@ Route::group([
         'middleware' => 'analyst',
         'prefix'     => 'analyst'
     ], function () {
-        Route::get('/change/status/{date}/{value}', [AnalystController::class, 'changeStatusTransaction'])->name('change.status');
+        // Code
     });
     
     // Grupo de rutas del usuario Gerente
@@ -77,5 +77,7 @@ Route::group([
         'prefix'     => 'manager'
     ], function () {
         Route::get('/calendar', [ManagerController::class, 'index'])->name('calendar');
+        Route::post('/calendar/store', [ManagerController::class, 'store']);
+        Route::delete('/calendar/delete/{holiday}', [ManagerController::class, 'destroy']);
     });
 });
