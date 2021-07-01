@@ -42,11 +42,16 @@
           select: this.handleDateSelect,
           eventClick: this.handleEventClick,
           eventsSet: this.handleEvents,
-          events: []
+          events: [],
+          headerToolbar: {
+            left: 'dayGridMonth',
+            center: 'title',
+            right: 'prevYear,prev,next,nextYear'
+          },
         },
         currentEvents: [],
         calendarView: null,
-        date: null
+        date: null,
       }
     },
     methods: {

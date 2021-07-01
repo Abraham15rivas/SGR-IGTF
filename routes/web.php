@@ -8,6 +8,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Manager\ManagerController;
 use App\Http\Controllers\Analyst\AnalystController;
+use App\Http\Controllers\Report\ReportExcelController;
+use App\Http\Controllers\Report\ReportXMLController;
 
 // Rutas de autenticación
 Auth::routes();
@@ -50,11 +52,11 @@ Route::group([
     // Rutas compartidas para Gerentes y analistas
     Route::middleware(['manager-analyst'])->group(function () {
         Route::get('/home', [HomeController::class, 'index'])->name('home');
-        Route::get('/index/excel/transaction', [HomeController::class, 'indexTransaction'])->name('index.transaction.excel');
-        Route::get('/show/excel/transaction/{date}', [HomeController::class, 'showTransactionExcel'])->name('show.transaction.excel');
-        Route::post('/store/excel/confirmation', [HomeController::class, 'confirmationExcel'])->name('store.confirmation.excel');
-        Route::get('/show/xml/transaction', [HomeController::class, 'indexXML'])->name('index.xml');
-        Route::get('/show/xml/transaction/{date}', [HomeController::class, 'showXML'])->name('show.xml');
+        Route::get('/index/excel/transaction', [ReportExcelController::class, 'indexTransaction'])->name('index.transaction.excel');
+        Route::get('/show/excel/transaction/{date}', [ReportExcelController::class, 'showTransactionExcel'])->name('show.transaction.excel');
+        Route::post('/store/excel/confirmation', [ReportExcelController::class, 'confirmationExcel'])->name('store.confirmation.excel');
+        Route::get('/show/xml/transaction', [ReportXMLController::class, 'indexXML'])->name('index.xml');
+        Route::get('/show/xml/transaction/{date}', [ReportXMLController::class, 'showXML'])->name('show.xml');
     });
     
     // Rutas compartidas para Gerentes y Administrador

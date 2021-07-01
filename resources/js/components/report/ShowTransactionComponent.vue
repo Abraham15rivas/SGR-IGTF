@@ -142,7 +142,7 @@
                             if(object.transactions[2] == 'storage') {
                                 Swal.fire({
                                     icon: 'info',
-                                    title: 'Ya fue procesado',
+                                    title: 'Reporte procesado',
                                     text: `${ object.message }`,
                                     footer: `<a
                                                 href="/storage/${ object.transactions[0] }"

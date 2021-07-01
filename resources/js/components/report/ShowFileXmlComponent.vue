@@ -80,7 +80,7 @@
                                 icon: 'success',
                                 title: `${ object.message }`,
                                 showConfirmButton: false,
-                                timer: 1500
+                                timer: 3000
                             })
                             this.files = object.files
                             this.ready = true
